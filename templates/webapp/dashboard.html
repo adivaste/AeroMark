@@ -1,0 +1,99 @@
+{% extends "webapp/_base.html" %}
+
+
+<!-- ===== Name of Category title ===== -->
+{% block category_title %}
+Dashboard
+{% endblock category_title %}     
+<!-- ===== END OF Name of Category title ===== -->
+
+
+<!-- ===== List of all collections ===== -->
+{% block collections %}  
+<li>
+  <a href="{% url 'collections' id=1 %}" class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
+    <span class="flex-1 ml-3 whitespace-nowrap"><i class="fa-solid fa-folder"></i> &nbsp; DSA </span>
+    <span class="inline-flex justify-center items-center w-6 h-6 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"> 3 </span>
+  </a>
+</li>
+<li>
+  <a href="{% url 'collections' id=2 %}" class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
+    <span class="flex-1 ml-3 whitespace-nowrap"><i class="fa-solid fa-folder"></i> &nbsp; Operating System </span>
+    <span class="inline-flex justify-center items-center w-6 h-6 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"> 3 </span>
+  </a>
+</li>
+<li>
+  <a href="{% url 'collections' id=3 %}" class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
+    <span class="flex-1 ml-3 whitespace-nowrap"><i class="fa-solid fa-folder"></i> &nbsp; Problem Solving </span>
+    <span class="inline-flex justify-center items-center w-6 h-6 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"> 3 </span>
+  </a>
+</li>
+
+<li>
+  <a href="{% url 'collections' id=4 %}" class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
+    <span class="flex-1 ml-3 whitespace-nowrap"><i class="fa-solid fa-folder"></i> &nbsp; Good Read's </span>
+    <span class="inline-flex justify-center items-center w-6 h-6 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"> 3 </span>
+  </a>
+</li>
+<li>
+  <a href="{% url 'collections' id=5 %}" class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
+    <span class="flex-1 ml-3 whitespace-nowrap"><i class="fa-solid fa-folder"></i> &nbsp; Carrier </span>
+    <span class="inline-flex justify-center items-center w-6 h-6 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"> 3 </span>
+  </a>
+</li>
+{% endblock collections %}
+<!-- ===== END OF List of all collections ===== -->
+
+
+<!-- ===== List of all tags ===== -->
+{% block tags %}
+<li>
+  <a href="{% url 'tags' id=1 %}" class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
+    <span class="flex-1 ml-3 whitespace-nowrap"><i class="fa-solid fa-hashtag"></i> &nbsp; DSA </span>
+    <span class="inline-flex justify-center items-center w-6 h-6 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"> 3 </span>
+  </a>
+</li>
+<li>
+  <a href="{% url 'tags' id=2 %}" class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
+    <span class="flex-1 ml-3 whitespace-nowrap"><i class="fa-solid fa-hashtag"></i> &nbsp; Operating System </span>
+    <span class="inline-flex justify-center items-center w-6 h-6 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"> 3 </span>
+  </a>
+</li>
+<li>
+  <a href="{% url 'tags' id=3 %}" class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
+    <span class="flex-1 ml-3 whitespace-nowrap"><i class="fa-solid fa-hashtag"></i> &nbsp; Problem Solving </span>
+    <span class="inline-flex justify-center items-center w-6 h-6 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"> 3 </span>
+  </a>
+</li>
+
+<li>
+  <a href="{% url 'tags' id=4 %}" class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
+    <span class="flex-1 ml-3 whitespace-nowrap"><i class="fa-solid fa-hashtag"></i> &nbsp; Good Read's </span>
+    <span class="inline-flex justify-center items-center w-6 h-6 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"> 3 </span>
+  </a>
+</li>
+<li>
+  <a href="{% url 'tags' id=5 %}" class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
+    <span class="flex-1 ml-3 whitespace-nowrap"><i class="fa-solid fa-hashtag"></i> &nbsp; Carrier </span>
+    <span class="inline-flex justify-center items-center w-6 h-6 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"> 3 </span>
+  </a>
+</li>
+{% endblock tags %}
+<!-- ===== END OF List of all tags ===== -->
+
+
+<!-- ===== List of bookmarks ===== -->
+{% block bookmarks %}  
+<div class="flex items-center justify-center my-8">
+  <div class="text-center">
+    <div class="flex items-center justify-center">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="Bookmark" width="128" height="128">
+        <path fill="#8ccaff" d="M23,4H9A1,1,0,0,0,8,5V27a1,1,0,0,0,.62.92,1,1,0,0,0,1.09-.21L16,21.41l6.29,6.3A1,1,0,0,0,23,28a.84.84,0,0,0,.38-.08A1,1,0,0,0,24,27V5A1,1,0,0,0,23,4Z" class="color8c9eff svgShape"></path>
+        <path fill="#2d8ee0" d="M23,28a.84.84,0,0,0,.38-.08A1,1,0,0,0,24,27V5a1,1,0,0,0-1-1H16V21.41l6.29,6.3A1,1,0,0,0,23,28Z" class="color5f7cf9 svgShape"></path>
+      </svg>
+    </div>
+    <p class="mt-2">Click on any option from left side to see Bookmarks</p>
+  </div>
+</div>
+{% endblock bookmarks %}
+<!-- ===== END OF List of bookmarks ===== -->

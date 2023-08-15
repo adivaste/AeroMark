@@ -307,7 +307,7 @@
 
           <li>
             <a
-              href="#"
+              href="{% url 'all_bookmarks' %}"
               class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
             >
               
@@ -322,7 +322,7 @@
 
           <li>
             <a
-              href="#"
+              href="{% url 'unsorted' %}"
               class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
             >
               
@@ -337,7 +337,7 @@
 
           <li>
             <a
-              href="#"
+              href="{% url 'trash' %}"
               class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
             >
               
@@ -379,40 +379,16 @@
               </svg>
             </button>
 
-            <ul id="dropdown-pages" class="hidden py-1 space-y-1">
-            <li>
-              <a href="#" class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
-                <span class="flex-1 ml-3 whitespace-nowrap"><i class="fa-solid fa-folder"></i> &nbsp; DSA </span>
-                <span class="inline-flex justify-center items-center w-6 h-6 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"> 3 </span>
-              </a>
-            </li>
-            <li>
-              <a href="#" class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
-                <span class="flex-1 ml-3 whitespace-nowrap"><i class="fa-solid fa-folder"></i> &nbsp; Operating System </span>
-                <span class="inline-flex justify-center items-center w-6 h-6 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"> 3 </span>
-              </a>
-            </li>
-            <li>
-              <a href="#" class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
-                <span class="flex-1 ml-3 whitespace-nowrap"><i class="fa-solid fa-folder"></i> &nbsp; Problem Solving </span>
-                <span class="inline-flex justify-center items-center w-6 h-6 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"> 3 </span>
-              </a>
-            </li>
 
-            <li>
-              <a href="#" class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
-                <span class="flex-1 ml-3 whitespace-nowrap"><i class="fa-solid fa-folder"></i> &nbsp; Good Read's </span>
-                <span class="inline-flex justify-center items-center w-6 h-6 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"> 3 </span>
-              </a>
-            </li>
-            <li>
-              <a href="#" class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
-                <span class="flex-1 ml-3 whitespace-nowrap"><i class="fa-solid fa-folder"></i> &nbsp; Carrier </span>
-                <span class="inline-flex justify-center items-center w-6 h-6 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"> 3 </span>
-              </a>
-            </li>
-
+            <!-- ===== List of all collections ===== -->
+            <ul id="dropdown-pages" class="py-1 space-y-1">
+              {% block collections %}
+              <li>No collections</li>
+              {% endblock collections %}
             </ul>
+            <!-- ===== END OF List of all collections ===== -->
+
+
           </li>
 
 
@@ -442,40 +418,13 @@
               </svg>
             </button>
 
-            <ul id="tags" class="hidden py-1 space-y-1">
-            <li>
-              <a href="#" class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
-                <span class="flex-1 ml-3 whitespace-nowrap"><i class="fa-solid fa-hashtag"></i> &nbsp; DSA </span>
-                <span class="inline-flex justify-center items-center w-6 h-6 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"> 3 </span>
-              </a>
-            </li>
-            <li>
-              <a href="#" class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
-                <span class="flex-1 ml-3 whitespace-nowrap"><i class="fa-solid fa-hashtag"></i> &nbsp; Operating System </span>
-                <span class="inline-flex justify-center items-center w-6 h-6 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"> 3 </span>
-              </a>
-            </li>
-            <li>
-              <a href="#" class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
-                <span class="flex-1 ml-3 whitespace-nowrap"><i class="fa-solid fa-hashtag"></i> &nbsp; Problem Solving </span>
-                <span class="inline-flex justify-center items-center w-6 h-6 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"> 3 </span>
-              </a>
-            </li>
-
-            <li>
-              <a href="#" class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
-                <span class="flex-1 ml-3 whitespace-nowrap"><i class="fa-solid fa-hashtag"></i> &nbsp; Good Read's </span>
-                <span class="inline-flex justify-center items-center w-6 h-6 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"> 3 </span>
-              </a>
-            </li>
-            <li>
-              <a href="#" class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
-                <span class="flex-1 ml-3 whitespace-nowrap"><i class="fa-solid fa-hashtag"></i> &nbsp; Carrier </span>
-                <span class="inline-flex justify-center items-center w-6 h-6 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"> 3 </span>
-              </a>
-            </li>
-
+            <!-- ===== Tags list ===== -->
+            <ul id="tags" class="py-1 space-y-1">
+              {% block tags %}
+                No tags here
+              {% endblock tags %}
             </ul>
+            <!-- ===== Tags list ends here ===== -->
           </li>
 
           <li>
@@ -837,7 +786,17 @@
       <div class="max-w-screen px-4 pb-4">
 
         <div class="flex justify-between items-center pb-4 ">
-          <h4 class="text-xl font-semibold">Tech Bookmarks</h4>
+          
+          <!-- ======= Name of Category title ========= -->
+          <h4 class="text-xl font-semibold">
+
+            {% block category_title %}
+              Tech Bookmarked
+            {% endblock category_title %}          
+
+          </h4>
+          <!-- ======= END OF Name of Category title ========= -->
+
       
           <div class="flex items-center space-x-4">
             <!-- Sort By Dropdown -->
@@ -933,7 +892,7 @@
               >
                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
                   <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">All Backup</a>
+                    <a href="" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">All Backup</a>
                   </li>
                
                   <li>
@@ -953,206 +912,15 @@
         </div>
           
 
-    <!-- Original -->
+    <!-- ======= Bookmarks List =======  -->
 
-    <div class="py-3 border-t border-b bookmark-item">
-      <div class="flex items-start">
-          <div class="w-12 h-12 md:w-16 md:h-16 flex-shrink-0">
-              <img src="https://plus.unsplash.com/premium_photo-1690303193709-dedfee29c452?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80" alt="Bookmark Image" class="w-full h-full object-cover rounded-md">
-          </div>
-          <div class="bookmark-info flex-grow ml-4">
-              <div class="flex items-center justify-between">
-                  <div>
-                      <h2 class="text-base font-semibold">Google Team-mates</h2>
-                      <p class="text-gray-600 text-sm">This is an example bookmark.</p>
-                      <a href="https://www.example.com" class="text-blue-500 hover:underline text-sm">example.com</a>
-                  </div>
-                  <div class="bookmark-actions">
-                    <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                        <i class="text-lg far fa-pen-to-square"></i>
-                    </span>
-                    <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                        <i class="text-lg fas fa-trash"></i>
-                    </span>
-                    <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                        <i class="text-lg far fa-eye" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-backdrop="false" data-drawer-placement="right" aria-controls="drawer-right-example"></i>
-                    </span>
-                    <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                        <i class="text-lg fas fa-plus"></i>
-                    </span>
-                </div>
-                  
-              </div>
-          </div>
-      </div>
-  </div>
-
-
-  <div class="py-3 border-t border-b bookmark-item">
-    <div class="flex items-start">
-        <div class="w-12 h-12 md:w-16 md:h-16 flex-shrink-0">
-            <img src="https://media.sproutsocial.com/uploads/2017/02/10x-featured-social-media-image-size.png" alt="Bookmark Image" class="w-full h-full object-cover rounded-md">
-        </div>
-        <div class="bookmark-info flex-grow ml-4">
-            <div class="flex items-center justify-between">
-                <div>
-                    <h2 class="text-base font-semibold">Image diagram</h2>
-                    <p class="text-gray-600 text-sm">This is an example bookmark.</p>
-                    <a href="https://www.example.com" class="text-blue-500 hover:underline text-sm">example.com</a>
-                </div>
-                <div class="bookmark-actions">
-                  <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                      <i class="text-lg far fa-pen-to-square"></i>
-                  </span>
-                  <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                      <i class="text-lg fas fa-trash"></i>
-                  </span>
-                  <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                    <i class="text-lg far fa-eye" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-backdrop="false" data-drawer-placement="right" aria-controls="drawer-right-example"></i>
-                  </span>
-                  <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                      <i class="text-lg fas fa-plus"></i>
-                  </span>
-              </div>
-                
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-<div class="py-3 border-t border-b bookmark-item">
-  <div class="flex items-start">
-      <div class="w-12 h-12 md:w-16 md:h-16 flex-shrink-0">
-          <img src="https://assets.turbologo.com/blog/en/2019/11/19084834/gaming-logo-cover.jpg" alt="Bookmark Image" class="w-full h-full object-cover rounded-md">
-      </div>
-      <div class="bookmark-info flex-grow ml-4">
-          <div class="flex items-center justify-between">
-              <div>
-                  <h2 class="text-base font-semibold">Create logo by designers</h2>
-                  <p class="text-gray-600 text-sm">This is an example bookmark.</p>
-                  <a href="https://www.example.com" class="text-blue-500 hover:underline text-sm">example.com</a>
-              </div>
-              <div class="bookmark-actions">
-                <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                    <i class="text-lg far fa-pen-to-square"></i>
-                </span>
-                <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                    <i class="text-lg fas fa-trash"></i>
-                </span>
-                <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                  <i class="text-lg far fa-eye" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-backdrop="false" data-drawer-placement="right" aria-controls="drawer-right-example"></i>
-                </span>
-                <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                    <i class="text-lg fas fa-plus"></i>
-                </span>
-            </div>
-              
-          </div>
-      </div>
-  </div>
-</div>
-
-
-
-<div class="py-3 border-t border-b bookmark-item">
-  <div class="flex items-start">
-      <div class="w-12 h-12 md:w-16 md:h-16 flex-shrink-0">
-          <img src="https://images.unsplash.com/photo-1690643606281-ffc0bb1bb836?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80" alt="Bookmark Image" class="w-full h-full object-cover rounded-md">
-      </div>
-      <div class="bookmark-info flex-grow ml-4">
-          <div class="flex items-center justify-between">
-              <div>
-                  <h2 class="text-base font-semibold">Person on the beach</h2>
-                  <p class="text-gray-600 text-sm">This is an example bookmark.</p>
-                  <a href="https://www.example.com" class="text-blue-500 hover:underline text-sm">example.com</a>
-              </div>
-              <div class="bookmark-actions">
-                <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                    <i class="text-lg far fa-pen-to-square"></i>
-                </span>
-                <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                    <i class="text-lg fas fa-trash"></i>
-                </span>
-                <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                  <i class="text-lg far fa-eye" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" data-drawer-backdrop="false" aria-controls="drawer-right-example"></i>
-                </span>
-                <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                    <i class="text-lg fas fa-plus"></i>
-                </span>
-            </div>
-              
-          </div>
-      </div>
-  </div>
-</div>
+  {% block bookmarks %}
       
-
-<div class="py-3 border-t border-b bookmark-item">
-  <div class="flex items-start">
-      <div class="w-12 h-12 md:w-16 md:h-16 flex-shrink-0">
-          <img src="https://images.unsplash.com/photo-1505968409348-bd000797c92e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80" alt="Bookmark Image" class="w-full h-full object-cover rounded-md">
-      </div>
-      <div class="bookmark-info flex-grow ml-4">
-          <div class="flex items-center justify-between">
-              <div>
-                  <h2 class="text-base font-semibold">Girl went to Forest</h2>
-                  <p class="text-gray-600 text-sm">This is an example bookmark.</p>
-                  <a href="https://www.example.com" class="text-blue-500 hover:underline text-sm">example.com</a>
-              </div>
-              <div class="bookmark-actions">
-                <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                    <i class="text-lg far fa-pen-to-square"></i>
-                </span>
-                <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                    <i class="text-lg fas fa-trash"></i>
-                </span>
-                <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                  <i class="text-lg far fa-eye" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" data-drawer-backdrop="false" aria-controls="drawer-right-example"></i>
-                </span>
-                <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                    <i class="text-lg fas fa-plus"></i>
-                </span>
-            </div>
-              
-          </div>
-      </div>
-  </div>
-</div>
+  {% endblock bookmarks %}
 
 
-<div class="py-3 border-t border-b bookmark-item">
-  <div class="flex items-start">
-      <div class="w-12 h-12 md:w-16 md:h-16 flex-shrink-0">
-          <img src="https://images.unsplash.com/photo-1628752602967-4630ec11f666?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1193&q=80" alt="Bookmark Image" class="w-full h-full object-cover rounded-md">
-      </div>
-      <div class="bookmark-info flex-grow ml-4">
-          <div class="flex items-center justify-between">
-              <div>
-                  <h2 class="text-base font-semibold">Beautiful Flowers</h2>
-                  <p class="text-gray-600 text-sm">This is an example bookmark.</p>
-                  <a href="https://www.example.com" class="text-blue-500 hover:underline text-sm">example.com</a>
-              </div>
-              <div class="bookmark-actions">
-                <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                    <i class="text-lg far fa-pen-to-square"></i>
-                </span>
-                <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                    <i class="text-lg fas fa-trash"></i>
-                </span>
-                <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                  <i class="text-lg far fa-eye" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" data-drawer-backdrop="false" aria-controls="drawer-right-example"></i>
-                </span>
-                <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                    <i class="text-lg fas fa-plus"></i>
-                </span>
-            </div>
-              
-          </div>
-      </div>
-  </div>
-</div>
+  <!-- ======= END OF BOOKMARKS LIST ======= -->
+
 </div>
     </main>
 
