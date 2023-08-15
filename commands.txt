@@ -1,0 +1,7 @@
+# For Flowbite (tailwind)
+- npm install -D tailwindcss
+- npm install flowbite
+- npx tailwindcss init
+- npx tailwindcss -i ./static/src/input.css -o ./static/src/output.css --watch
+
+
