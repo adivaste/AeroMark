@@ -11,104 +11,42 @@ Unsorted Bookmarks
 
 <!-- ===== List of bookmarks ===== -->
 {% block bookmarks %}
-
+{% for bookmark in bookmarks_list %}
 <div class="py-3 border-t border-b bookmark-item">
-  <div class="flex items-start">
-      <div class="w-12 h-12 md:w-16 md:h-16 flex-shrink-0">
-          <img src="https://images.unsplash.com/photo-1690643606281-ffc0bb1bb836?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80" alt="Bookmark Image" class="w-full h-full object-cover rounded-md">
-      </div>
-      <div class="bookmark-info flex-grow ml-4">
-          <div class="flex items-center justify-between">
-              <div>
-                  <h2 class="text-base font-semibold">Person on the beach</h2>
-                  <p class="text-gray-600 text-sm">This is an example bookmark.</p>
-                  <a href="https://www.example.com" class="text-blue-500 hover:underline text-sm">example.com</a>
+    <div class="flex items-start">
+        <div class="w-12 h-12 md:w-16 md:h-16 flex-shrink-0">
+            <img src="{{ bookmark.thumbnail_url }}" alt="Bookmark Image" class="w-full h-full object-cover rounded-md">
+        </div>
+        <div class="bookmark-info flex-grow ml-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-base font-semibold">{{ bookmark.title }}</h2>
+                    <p class="text-gray-600 text-sm">{{ bookmark.note }}</p>
+                    <a href="{{ bookmark.url }}" target="_blank" class="text-blue-500 hover:underline text-sm">{{ bookmark.site_name }}</a>
+                </div>
+                <div class="bookmark-actions">
+                  <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
+                      <i class="text-lg far fa-pen-to-square"></i>
+                  </span>
+                  <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
+                      
+                      <a href="{% url 'deleteBookmark'  id=bookmark.id %}"><i class="text-lg fas fa-trash"></i> </a>
+                  </span>
+                  <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
+                    <i class="text-lg far fa-eye" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-backdrop="false" data-drawer-placement="right" aria-controls="drawer-right-example"></i>
+                  </span>
+                  <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
+                      <a href="{{ bookmark.url }}" target="_blank">
+                          <i class="text-lg fas fa-plus"></i>
+                      </a>
+                  </span>
               </div>
-              <div class="bookmark-actions">
-                <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                    <i class="text-lg far fa-pen-to-square"></i>
-                </span>
-                <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                    <i class="text-lg fas fa-trash"></i>
-                </span>
-                <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                  <i class="text-lg far fa-eye" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" data-drawer-backdrop="false" aria-controls="drawer-right-example"></i>
-                </span>
-                <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                    <i class="text-lg fas fa-plus"></i>
-                </span>
+                
             </div>
-              
-          </div>
-      </div>
-  </div>
-</div>
-      
-
-<div class="py-3 border-t border-b bookmark-item">
-  <div class="flex items-start">
-      <div class="w-12 h-12 md:w-16 md:h-16 flex-shrink-0">
-          <img src="https://images.unsplash.com/photo-1505968409348-bd000797c92e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80" alt="Bookmark Image" class="w-full h-full object-cover rounded-md">
-      </div>
-      <div class="bookmark-info flex-grow ml-4">
-          <div class="flex items-center justify-between">
-              <div>
-                  <h2 class="text-base font-semibold">Girl went to Forest</h2>
-                  <p class="text-gray-600 text-sm">This is an example bookmark.</p>
-                  <a href="https://www.example.com" class="text-blue-500 hover:underline text-sm">example.com</a>
-              </div>
-              <div class="bookmark-actions">
-                <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                    <i class="text-lg far fa-pen-to-square"></i>
-                </span>
-                <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                    <i class="text-lg fas fa-trash"></i>
-                </span>
-                <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                  <i class="text-lg far fa-eye" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" data-drawer-backdrop="false" aria-controls="drawer-right-example"></i>
-                </span>
-                <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                    <i class="text-lg fas fa-plus"></i>
-                </span>
-            </div>
-              
-          </div>
-      </div>
-  </div>
+        </div>
+    </div>
 </div>
 
-
-<div class="py-3 border-t border-b bookmark-item">
-  <div class="flex items-start">
-      <div class="w-12 h-12 md:w-16 md:h-16 flex-shrink-0">
-          <img src="https://images.unsplash.com/photo-1628752602967-4630ec11f666?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1193&q=80" alt="Bookmark Image" class="w-full h-full object-cover rounded-md">
-      </div>
-      <div class="bookmark-info flex-grow ml-4">
-          <div class="flex items-center justify-between">
-              <div>
-                  <h2 class="text-base font-semibold">Beautiful Flowers</h2>
-                  <p class="text-gray-600 text-sm">This is an example bookmark.</p>
-                  <a href="https://www.example.com" class="text-blue-500 hover:underline text-sm">example.com</a>
-              </div>
-              <div class="bookmark-actions">
-                <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                    <i class="text-lg far fa-pen-to-square"></i>
-                </span>
-                <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                    <i class="text-lg fas fa-trash"></i>
-                </span>
-                <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                  <i class="text-lg far fa-eye" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" data-drawer-backdrop="false" aria-controls="drawer-right-example"></i>
-                </span>
-                <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                    <i class="text-lg fas fa-plus"></i>
-                </span>
-            </div>
-              
-          </div>
-      </div>
-  </div>
-</div>
-
+{% endfor %}
 {% endblock bookmarks %}
 <!-- ===== END OF List of bookmarks ===== -->

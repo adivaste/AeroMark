@@ -13,6 +13,7 @@ class Bookmark(models.Model):
     is_favorite = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     collection = models.ForeignKey("Collection", on_delete=models.CASCADE, blank=True, null=True)
+    is_trash = models.BooleanField(default=False, blank=True)
 
     def __str__(self):
         return self.title

@@ -23,6 +23,10 @@
       *::-webkit-scrollbar {
         display: none;
       }
+
+      body{
+        font-family: 'SF Pro Display';
+      }
       
       .logo{
         font-family: 'Poppins', sans-serif;
@@ -75,11 +79,11 @@
 
 </head>
 
-<body class="bg-green-50">
+<body class="bg-green-50 h-screen">
 
   
 
-  <div class="antialiased bg-gray-50 dark:bg-gray-900">
+  <div class="antialiased bg-gray-50 dark:bg-gray-900 h-full">
     
     <nav class="bg-white border-b border-gray-200 px-4 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 top-0 z-50">
       <div class="flex flex-wrap justify-between items-center">
@@ -780,10 +784,10 @@
 
 
     
-    <main class="p-4 md:ml-64 h-auto pt-20 overflow-y-auto overflow-x-hidden">
+    <main class="p-4 md:ml-64 h-auto pt-20 overflow-y-auto overflow-x-hidden h-full">
 
 
-      <div class="max-w-screen px-4 pb-4">
+      <div class="max-w-screen px-4 pb-4 h-full">
 
         <div class="flex justify-between items-center pb-4 ">
           
@@ -811,22 +815,22 @@
                 aria-labelledby="sortDropdownButton" >
                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
                   <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">By Title (A-Z)</a>
+                    <a href="?sort_by=title_az" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">By Title (A-Z)</a>
                   </li>
                   <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">By Title (Z-A)</a>
+                    <a href="?sort_by=title_za" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">By Title (Z-A)</a>
                   </li>
                   <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">By Date (Recent)</a>
+                    <a href="?sort_by=recent" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">By Date (Recent)</a>
                   </li>
                   <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">By Date (Older)</a>
+                    <a href="?sort_by=older" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">By Date (Older)</a>
                   </li>
                   <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">By Site (A-Z)</a>
+                    <a href="?sort_by=site_az" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">By Site (A-Z)</a>
                   </li>
                   <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">By Site (Z-A)</a>
+                    <a href="?sort_by=site_za" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">By Site (Z-A)</a>
                   </li>
                 </ul>
               </div>
@@ -968,16 +972,9 @@
 
 </div>
 
-
     
   </div>
 
-
-  <div class="container mx-auto mt-4">
-      {% block content %}
-      
-      {% endblock content %}
-  </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.js"></script>
 </body>

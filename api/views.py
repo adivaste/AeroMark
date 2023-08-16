@@ -17,13 +17,70 @@ from utils.getThumbnailURL import extract_thumbnail
 
 @api_view(['GET', 'POST'])
 def bookmarks_list(request):
-      if request.method == 'GET':
-            bookmarks = Bookmark.objects.all()
-            print(bookmarks[0])
-            serializer = BookmarkSerializer(bookmarks, many=True)
-            print((serializer.data))
-            return Response(serializer.data)
-      elif request.method == 'POST':
+     if request.method == 'GET':
+        tag = None
+        collection = None
+        sort_by = 'recent'
+        trash = False
+
+        data = None
+
+        # Check for sort by
+        sort_possible_options = ['site_az', 'site_za', 'title_az', 'title_za', 'recent', 'older']
+        req_sort_by = request.query_params.get('sort_by')
+        if req_sort_by in sort_possible_options:
+            sort_by = req_sort_by
+
+        # Check for collection, tag, trash from request
+        req_collection = request.query_params.get('collection')
+        req_tag = request.query_params.get('tag')
+        req_trash = request.query_params.get('trash')
+
+        # Check for trash
+        if req_trash is not None and req_trash == "True":
+             trash=True
+
+        # Check for collection
+        if req_collection and Collection.objects.filter(name=req_collection).exists():
+            collection = req_collection
+
+        # Check for tags
+        elif not req_collection and req_tag and Tag.objects.filter(name=req_tag).exists():
+            tag = req_tag
+
+        # Deciding what data to send
+        if not collection and not tag:
+            data = Bookmark.objects.all().filter()
+        elif tag:
+            data = Bookmark.objects.filter(tags__name=str(tag))
+        else:
+            data = Bookmark.objects.filter(collection__name=str(collection))
+
+        if (trash):
+             data = Bookmark.objects.filter(is_trash=True)
+        else:
+             data = data.filter(is_trash=False)
+        
+
+
+        # Deciding sorting order
+        if sort_by == 'site_az':
+            data = data.order_by('url')
+        elif sort_by == 'site_za':
+            data = data.order_by('-url')
+        elif sort_by == 'title_az':
+            data = data.order_by('title')
+        elif sort_by == 'title_za':
+            data = data.order_by('-title')
+        elif sort_by == 'recent':
+            data = data.order_by('-created_at')
+        elif sort_by == 'older':
+            data = data.order_by('created_at')
+
+        serializer = BookmarkSerializer(data, many=True)
+        return Response(serializer.data)
+     
+     elif request.method == 'POST':
 
             # Until Authentication is done, hardcoded user
             request.data['user'] = 1
@@ -71,8 +128,7 @@ def bookmarks_list(request):
 
                   return Response(serialized_data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
+    
 
 # =========================================================
 # === Operations on each bookmark ||  METHODS :: GET, POST
@@ -90,8 +146,14 @@ def bookmarks_detail(request, pk):
       # === METHOD :: DELETE ===
       elif request.method == "DELETE":
             bookmark = get_object_or_404(Bookmark,pk=pk)
-            bookmark.delete()
-            return Response({"message" : "Deleted Successfully"}, status=status.HTTP_204_NO_CONTENT)
+
+            if bookmark.is_trash:
+                bookmark.delete()
+                return Response({"message": "Deleted Successfully"}, status=status.HTTP_204_NO_CONTENT)
+            else:
+                bookmark.is_trash = True
+                bookmark.save()
+                return Response({"message": "Moved to Trash Successfully"}, status=status.HTTP_200_OK)
 
       request.data['user'] = 1
 

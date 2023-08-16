@@ -10,74 +10,33 @@ Dashboard
 
 <!-- ===== List of all collections ===== -->
 {% block collections %}  
-<li>
-  <a href="{% url 'collections' id=1 %}" class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
-    <span class="flex-1 ml-3 whitespace-nowrap"><i class="fa-solid fa-folder"></i> &nbsp; DSA </span>
-    <span class="inline-flex justify-center items-center w-6 h-6 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"> 3 </span>
-  </a>
-</li>
-<li>
-  <a href="{% url 'collections' id=2 %}" class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
-    <span class="flex-1 ml-3 whitespace-nowrap"><i class="fa-solid fa-folder"></i> &nbsp; Operating System </span>
-    <span class="inline-flex justify-center items-center w-6 h-6 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"> 3 </span>
-  </a>
-</li>
-<li>
-  <a href="{% url 'collections' id=3 %}" class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
-    <span class="flex-1 ml-3 whitespace-nowrap"><i class="fa-solid fa-folder"></i> &nbsp; Problem Solving </span>
-    <span class="inline-flex justify-center items-center w-6 h-6 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"> 3 </span>
-  </a>
-</li>
 
-<li>
-  <a href="{% url 'collections' id=4 %}" class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
-    <span class="flex-1 ml-3 whitespace-nowrap"><i class="fa-solid fa-folder"></i> &nbsp; Good Read's </span>
-    <span class="inline-flex justify-center items-center w-6 h-6 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"> 3 </span>
-  </a>
-</li>
-<li>
-  <a href="{% url 'collections' id=5 %}" class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
-    <span class="flex-1 ml-3 whitespace-nowrap"><i class="fa-solid fa-folder"></i> &nbsp; Carrier </span>
-    <span class="inline-flex justify-center items-center w-6 h-6 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"> 3 </span>
-  </a>
-</li>
+  {% for collection in collection_list %}
+    <li>
+      <a href="{% url 'collections' name=collection.name %}" class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
+        <span class="flex-1 ml-3 whitespace-nowrap"><i class="fa-solid fa-folder"></i> &nbsp; {{ collection.name  }} </span>
+        <span class="inline-flex justify-center items-center w-6 h-6 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"> 3 </span>
+      </a>
+    </li>
+  
+  {% endfor %}
+
 {% endblock collections %}
 <!-- ===== END OF List of all collections ===== -->
 
 
 <!-- ===== List of all tags ===== -->
 {% block tags %}
-<li>
-  <a href="{% url 'tags' id=1 %}" class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
-    <span class="flex-1 ml-3 whitespace-nowrap"><i class="fa-solid fa-hashtag"></i> &nbsp; DSA </span>
-    <span class="inline-flex justify-center items-center w-6 h-6 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"> 3 </span>
-  </a>
-</li>
-<li>
-  <a href="{% url 'tags' id=2 %}" class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
-    <span class="flex-1 ml-3 whitespace-nowrap"><i class="fa-solid fa-hashtag"></i> &nbsp; Operating System </span>
-    <span class="inline-flex justify-center items-center w-6 h-6 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"> 3 </span>
-  </a>
-</li>
-<li>
-  <a href="{% url 'tags' id=3 %}" class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
-    <span class="flex-1 ml-3 whitespace-nowrap"><i class="fa-solid fa-hashtag"></i> &nbsp; Problem Solving </span>
-    <span class="inline-flex justify-center items-center w-6 h-6 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"> 3 </span>
-  </a>
-</li>
 
-<li>
-  <a href="{% url 'tags' id=4 %}" class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
-    <span class="flex-1 ml-3 whitespace-nowrap"><i class="fa-solid fa-hashtag"></i> &nbsp; Good Read's </span>
-    <span class="inline-flex justify-center items-center w-6 h-6 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"> 3 </span>
-  </a>
-</li>
-<li>
-  <a href="{% url 'tags' id=5 %}" class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
-    <span class="flex-1 ml-3 whitespace-nowrap"><i class="fa-solid fa-hashtag"></i> &nbsp; Carrier </span>
-    <span class="inline-flex justify-center items-center w-6 h-6 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"> 3 </span>
-  </a>
-</li>
+    {% for tag in tags_list %}
+        <li>
+          <a href="{% url 'tags' name=tag.name %}" class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
+            <span class="flex-1 ml-3 whitespace-nowrap"><i class="fa-solid fa-hashtag"></i> &nbsp; {{ tag.name }} </span>
+            <span class="inline-flex justify-center items-center w-6 h-6 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"> 3 </span>
+          </a>
+        </li>
+    {% endfor %}
+
 {% endblock tags %}
 <!-- ===== END OF List of all tags ===== -->
 
