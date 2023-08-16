@@ -1,2 +1,4 @@
 1. Also add a local cache, to store sort by
 2. Problem with request taking too much time
+3. Problem faced in api endpoints 
+4. Customization of user, collection tags output as human readable instead of id

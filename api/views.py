@@ -21,12 +21,15 @@ def bookmarks_list(request):
             bookmarks = Bookmark.objects.all()
             print(bookmarks[0])
             serializer = BookmarkSerializer(bookmarks, many=True)
-            print(serializer.data)
+            print((serializer.data))
             return Response(serializer.data)
       elif request.method == 'POST':
 
+            # Until Authentication is done, hardcoded user
             request.data['user'] = 1
 
+
+            # Handles the tags, create and get instances
             tags = request.data.pop('tags', [])
             tag_instances = []
             for tag_name in tags:
@@ -38,7 +41,9 @@ def bookmarks_list(request):
                         return Response(tag_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             request.data['tags'] = [tag.id for tag in tag_instances]  # Convert tags to a list of tag IDs
 
-            collection_name = request.data.get('collection')  # Assuming the collection name is passed in the request
+
+            # Getting collection instances or create it
+            collection_name = request.data.get('collection')  
             userInstance = User.objects.get(id=1)
             if collection_name :
                   collection, _ = Collection.objects.get_or_create(name=collection_name, user=userInstance)
@@ -46,18 +51,25 @@ def bookmarks_list(request):
                   collection, _ = Collection.objects.get_or_create(name="No Collection", user=userInstance)
 
             request.data["collection"]=collection.id
-            
+
+
+
+            # Creating thumbnail
             try:
                  url = extract_thumbnail(request.data["url"])
                  request.data["thumbnail_url"] = url
                  print(request.data["thumbnail_url"] + "---" + request.data["url"])
             except:
                  pass
+            
 
+            # Creating the objects of models
             serializer = BookmarkSerializer(data=request.data)
             if serializer.is_valid():
-                  serializer.save()
-                  return Response(serializer.data, status=status.HTTP_201_CREATED)
+                  bookmark = serializer.save()
+                  serialized_data = serializer.to_representation(bookmark)  # Get the default serialized data
+
+                  return Response(serialized_data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -75,11 +87,11 @@ def bookmarks_detail(request, pk):
             serializer = BookmarkSerializer(bookmark)
             return Response(serializer.data, status=status.HTTP_200_OK)
       
-      # === METHOD :: POST ===
+      # === METHOD :: DELETE ===
       elif request.method == "DELETE":
             bookmark = get_object_or_404(Bookmark,pk=pk)
             bookmark.delete()
-            return Response("Deleted Successfully", status=status.HTTP_204_NO_CONTENT)
+            return Response({"message" : "Deleted Successfully"}, status=status.HTTP_204_NO_CONTENT)
 
       request.data['user'] = 1
 
@@ -105,6 +117,16 @@ def bookmarks_detail(request, pk):
       # === METHOD :: PATCH ===
       if request.method == "PATCH":
             bookmark = get_object_or_404(Bookmark,pk=pk)
+
+            
+            # Try to update the thumbnail if "url" exists
+            try:
+                 url = extract_thumbnail(request.data["url"])
+                 request.data["thumbnail_url"] = url
+            except:
+                 pass
+
+
             serializer = BookmarkSerializer(instance=bookmark, data=request.data, partial=True)
             if serializer.is_valid():
                   serializer.save()
@@ -114,6 +136,14 @@ def bookmarks_detail(request, pk):
       # === METHOD :: PUT ===
       elif request.method == "PUT":
             bookmark = get_object_or_404(Bookmark,pk=pk)
+
+            # Update the thumbnail url for given "url" exists
+            try:
+                 url = extract_thumbnail(request.data["url"])
+                 request.data["thumbnail_url"] = url
+            except:
+                 pass
+
             serializer = BookmarkSerializer(instance=bookmark, data=request.data)
             if serializer.is_valid():
                   serializer.save()

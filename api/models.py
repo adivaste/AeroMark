@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Bookmark(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    url = models.URLField()
+    url = models.URLField(max_length=2000)
     thumbnail_url = models.URLField(blank=True, default="https://i.ibb.co/3RLm4Jc/629a49e7ab53625cb2c4e791-Brand-pattern.jpg")
     title = models.CharField(max_length=512, blank=True)
     description = models.TextField(blank=True)

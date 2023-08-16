@@ -23,20 +23,23 @@ All Bookmarks
                     <div>
                         <h2 class="text-base font-semibold">{{ bookmark.title }}</h2>
                         <p class="text-gray-600 text-sm">{{ bookmark.note }}</p>
-                        <a href="{{ bookmark.url }}" class="text-blue-500 hover:underline text-sm">{{ bookmark.url }}</a>
+                        <a href="{{ bookmark.url }}" target="_blank" class="text-blue-500 hover:underline text-sm">{{ bookmark.site_name }}</a>
                     </div>
                     <div class="bookmark-actions">
                       <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
                           <i class="text-lg far fa-pen-to-square"></i>
                       </span>
                       <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                          <i class="text-lg fas fa-trash"></i>
+                          
+                          <a href="{% url 'deleteBookmark'  id=bookmark.id %}"><i class="text-lg fas fa-trash"></i> </a>
                       </span>
                       <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
                         <i class="text-lg far fa-eye" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-backdrop="false" data-drawer-placement="right" aria-controls="drawer-right-example"></i>
                       </span>
                       <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                          <i class="text-lg fas fa-plus"></i>
+                          <a href="{{ bookmark.url }}" target="_blank">
+                              <i class="text-lg fas fa-plus"></i>
+                          </a>
                       </span>
                   </div>
                     
