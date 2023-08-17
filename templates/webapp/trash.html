@@ -27,20 +27,12 @@ Trash Bookmarks
                 </div>
                 <div class="bookmark-actions">
                   <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                      <i class="text-lg far fa-pen-to-square"></i>
+                      <a href="{% url 'restoreBookmark'  id=bookmark.id %}"><i class="text-lg fas fa-trash-restore"></i></a>
                   </span>
                   <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                      
                       <a href="{% url 'deleteBookmark'  id=bookmark.id %}"><i class="text-lg fas fa-trash"></i> </a>
                   </span>
-                  <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                    <i class="text-lg far fa-eye" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-backdrop="false" data-drawer-placement="right" aria-controls="drawer-right-example"></i>
-                  </span>
-                  <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
-                      <a href="{{ bookmark.url }}" target="_blank">
-                          <i class="text-lg fas fa-plus"></i>
-                      </a>
-                  </span>
+                 
               </div>
                 
             </div>

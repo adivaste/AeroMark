@@ -14,4 +14,5 @@ urlpatterns = [
     path("dashboard/filter/articles", views.articles, name="articles"),
     path("dashboard/filter/documents", views.documents, name="documents"),
     path("dashboard/bookmark/delete/<int:id>", views.deleteBookmark, name="deleteBookmark"),
+    path("dashboard/bookmark/restore/<int:id>", views.restoreBookmark, name="restoreBookmark"),
 ]

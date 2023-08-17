@@ -1,0 +1,311 @@
+<!-- Collection choose -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flowbite Collection Name Input Field</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.css" rel="stylesheet" />
+
+    <style>
+        #collection-suggestions {
+            max-height: 8rem; /* Set maximum height for suggestions */
+            overflow-y: auto; /* Add vertical scrollbar when content overflows */
+        }
+    </style>
+</head>
+<body>
+
+<div class="m-4 relative">
+  
+<label for="collection-helper-text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Collection Name</label>
+<input type="text" id="collection-helper-text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter collection name">
+
+<div id="collection-suggestions" class="mt-2 absolute z-10 bg-white border border-gray-300 rounded-lg shadow-md w-full hidden">
+</div>
+
+<p id="collection-helper-text-explanation" class="mt-2 text-sm text-gray-500 dark:text-gray-400">We’ll use this name to organize your data. Read our <a href="#" class="font-medium text-blue-600 hover:underline dark:text-blue-500">Data Policy</a>.</p>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.js"></script>
+<script>
+    const collectionInput = document.getElementById('collection-helper-text');
+    const collectionSuggestions = document.getElementById('collection-suggestions');
+    
+    const predefinedCollections = [
+        'Books',
+        'Movies',
+        'Music',
+        'Recipes',
+        'Travel Plans',
+        'Work Projects'
+        // Add more predefined collection names as needed
+    ];
+    
+    function showCollectionSuggestions(matchedCollections) {
+        const suggestionsHTML = matchedCollections.map(collection => `<div class="p-2 cursor-pointer hover:bg-gray-100">${collection}</div>`).join('');
+        collectionSuggestions.innerHTML = suggestionsHTML;
+        collectionSuggestions.classList.remove('hidden');
+    }
+    
+    function hideCollectionSuggestions() {
+        collectionSuggestions.innerHTML = '';
+        collectionSuggestions.classList.add('hidden');
+    }
+    
+    collectionInput.addEventListener('input', () => {
+        const inputValue = collectionInput.value.toLowerCase(); // Convert input to lowercase
+        const matchedCollections = predefinedCollections.filter(collection => collection.toLowerCase().includes(inputValue));
+        
+        if (matchedCollections.length > 0) {
+            showCollectionSuggestions(matchedCollections);
+        } else {
+            hideCollectionSuggestions();
+        }
+    });
+    
+    collectionInput.addEventListener('focus', () => {
+        if (predefinedCollections.length > 0) {
+            showCollectionSuggestions(predefinedCollections);
+        }
+    });
+    
+    document.addEventListener('click', event => {
+        if (!collectionInput.contains(event.target) && !collectionSuggestions.contains(event.target)) {
+            hideCollectionSuggestions();
+        }
+    });
+    
+    collectionSuggestions.addEventListener('click', event => {
+        if (event.target.tagName === 'DIV') {
+            collectionInput.value = event.target.textContent;
+            hideCollectionSuggestions();
+        }
+    });
+</script>
+
+</body>
+</html>
+
+<!-- Name -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flowbite Tags Input</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.css" rel="stylesheet" />
+
+    <style>
+    
+    *{
+        boxShadow: "none !important",
+       }
+       
+       
+       
+        #tags-input {
+            display: inline-block;
+        }
+        
+        #tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            border: 1px solid #ccc;
+            padding: 0.25rem;
+            border-radius: 0.25rem;
+        }
+        
+        .tag {
+            background-color: #f2f2f2;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.50rem;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .tag-text {
+            margin-right: 0.25rem;
+        }
+        
+        .tag-close {
+            cursor: pointer;
+            font-weight: bold;
+            color: #999;
+            font-size: 0.8rem;
+        }
+        
+        #tags-suggestions {
+            max-height: 8rem;
+            overflow-y: auto;
+        }
+        
+        
+        /* Style for scrollbar track */
+#tags-suggestions::-webkit-scrollbar {
+    width: 8px;
+}
+
+#tags-suggestions::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+}
+
+/* Style for scrollbar thumb */
+#tags-suggestions::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+}
+
+/* Hover style for scrollbar thumb */
+#tags-suggestions::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+
+    </style>
+</head>
+<body>
+
+<div class="m-4 relative">
+  
+<label for="tags-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tags</label>
+
+    <input type="text" id="tags" placeholder="Enter tags" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+    <div id="tags-suggestions" class="mt-2 bg-white border border-gray-300 rounded-lg shadow-md hidden">
+    </div>
+
+<div id="tags-container" class="mt-2">
+</div>
+
+<p id="tags-helper-text-explanation" class="mt-2 text-sm text-gray-500 dark:text-gray-400">Separate tags with commas. Example: programming, design, web development</p>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.js"></script>
+<script>
+    const tagsInput = document.getElementById('tags');
+    const tagsSuggestions = document.getElementById('tags-suggestions');
+    const tagsContainer = document.getElementById('tags-container');
+    
+    const predefinedTags = [
+        'programming',
+        'design',
+        'web development',
+        'javascript',
+        'python',
+        'css',
+        'html',
+        'Backend',
+        'frontend',
+        'database'
+        // Add more predefined tags as needed
+    ];
+    
+    function showTagsSuggestions(matchedTags) {
+        const suggestionsHTML = matchedTags.map(tag => `<div class="p-2 cursor-pointer hover:bg-gray-100">${tag}</div>`).join('');
+        tagsSuggestions.innerHTML = suggestionsHTML;
+        tagsSuggestions.classList.remove('hidden');
+
+        tagsSuggestions.querySelectorAll('div').forEach(div => {
+            div.addEventListener('click', event => {
+                const selectedTag = event.target.textContent;
+                if (!tagsContainer.querySelector(`[data-tag="${selectedTag}"]`)) {
+                    addTag(selectedTag);
+                }
+                tagsInput.value = '';
+                hideTagsSuggestions();
+            });
+        });
+    }
+    
+    function hideTagsSuggestions() {
+        tagsSuggestions.innerHTML = '';
+        tagsSuggestions.classList.add('hidden');
+    }
+    
+    tagsInput.addEventListener('input', () => {
+        const inputValue = tagsInput.value.toLowerCase().trim();
+        const matchedTags = predefinedTags.filter(tag => tag.toLowerCase().includes(inputValue));
+        
+        if (matchedTags.length > 0) {
+            showTagsSuggestions(matchedTags);
+        } else {
+            hideTagsSuggestions();
+        }
+    });
+    
+    tagsInput.addEventListener('focus', () => {
+        if (predefinedTags.length > 0) {
+            showTagsSuggestions(predefinedTags);
+        }
+    });
+    
+    document.addEventListener('click', event => {
+        if (!tagsInput.contains(event.target) && !tagsSuggestions.contains(event.target)) {
+            hideTagsSuggestions();
+        }
+    });
+    
+    tagsInput.addEventListener('keydown', event => {
+        if (event.key === 'Enter' && tagsInput.value.trim() !== '') {
+            addTag(tagsInput.value.trim());
+            tagsInput.value = '';
+            event.preventDefault();
+        }
+    });
+
+    tagsContainer.addEventListener('click', event => {
+        if (event.target.classList.contains('tag-close')) {
+            const tagToRemove = event.target.getAttribute('data-tag');
+            const tagElement = event.target.parentElement;
+            tagsContainer.removeChild(tagElement);
+        }
+    });
+
+    function addTag(tagText) {
+        const tagElement = document.createElement('div');
+        tagElement.className = 'tag';
+        tagElement.innerHTML = `
+            <span class="tag-text">${tagText}</span>
+            <span class="tag-close" data-tag="${tagText}">x</span>
+        `;
+        tagsContainer.appendChild(tagElement);
+    }
+</script>
+</body>
+</html>
+
+
+<div class="flex flex-col">
+    <div class="p-2 flex">
+        <!-- Title Input -->
+        <label for="bookmark-title" class="w-24 mr-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
+        <input type="text" id="bookmark-title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter title">
+    </div>
+
+    <div class="p-2 flex">
+        <!-- Description Input -->
+        <label for="bookmark-description" class="w-24 mr-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+        <textarea id="bookmark-description" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 h-32 resize-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter description"></textarea>
+    </div>
+
+    <div class="p-2 flex">
+        <!-- Note Input -->
+        <label for="bookmark-note" class="w-24 mr-2 text-sm font-medium text-gray-900 dark:text-white">Note</label>
+        <textarea id="bookmark-note" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 h-32 resize-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter note"></textarea>
+    </div>
+
+    <div class="p-2 flex">
+        <!-- URL Input -->
+        <label for="bookmark-url" class="w-24 mr-2 text-sm font-medium text-gray-900 dark:text-white">URL</label>
+        <input type="text" id="bookmark-url" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter URL">
+    </div>
+</div>
+
+
+
+
+

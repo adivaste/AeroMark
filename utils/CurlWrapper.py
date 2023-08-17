@@ -63,6 +63,7 @@ class CurlWrapper:
             command.extend(['--data', data])
 
         try:
+            print(command)
             output = subprocess.run(command, capture_output=True, text=True, check=True)
             status_code = int(output.stdout[-3:])
             response = output.stdout[:-3]
@@ -95,6 +96,9 @@ class CurlWrapper:
 
     def put(self, url, data=None, headers=None):
         return self._execute_curl(url, method='PUT', headers=headers, data=data)
+    
+    def patch(self, url, data=None, headers=None):
+        return self._execute_curl(url, method='PATCH', headers=headers, data=data)
 
     def delete(self, url, headers=None):
         return self._execute_curl(url, method='DELETE', headers=headers)

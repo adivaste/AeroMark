@@ -60,7 +60,6 @@ def bookmarks_list(request):
              data = Bookmark.objects.filter(is_trash=True)
         else:
              data = data.filter(is_trash=False)
-        
 
 
         # Deciding sorting order
@@ -155,6 +154,7 @@ def bookmarks_detail(request, pk):
                 bookmark.save()
                 return Response({"message": "Moved to Trash Successfully"}, status=status.HTTP_200_OK)
 
+      print("       ???????      " , request.data)
       request.data['user'] = 1
 
       tags = request.data.pop('tags', [])
@@ -187,7 +187,13 @@ def bookmarks_detail(request, pk):
                  request.data["thumbnail_url"] = url
             except:
                  pass
-
+            
+            # Restore the bookmark from trash
+            if "is_trash" in request.data and not request.data["is_trash"]:
+                 if bookmark.is_trash:
+                      bookmark.is_trash = False
+                      bookmark.save()
+                      return Response({"message": "Bookmark has been restored from a trash."}, status=status.HTTP_200_OK)
 
             serializer = BookmarkSerializer(instance=bookmark, data=request.data, partial=True)
             if serializer.is_valid():

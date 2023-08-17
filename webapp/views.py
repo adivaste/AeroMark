@@ -222,3 +222,23 @@ def deleteBookmark(request,id):
     referring_page = request.META.get('HTTP_REFERER')
     return redirect(referring_page)
 
+def restoreBookmark(request,id):
+    api_url = f"http://localhost:8000/api/bookmarks/{id}"
+    
+    data = { "is_trash" : False }
+    data = json.dumps(data)
+    headers={'Content-Type': 'application/json'}
+
+    curl_wrapper = CurlWrapper()
+    curl_response = curl_wrapper.patch(api_url, data=data, headers=headers)
+
+    context = {}
+    status_code = curl_response.get('status_code')
+    response_json = curl_response.get('response_json')
+
+    if 200 <= status_code < 300 and response_json:
+        context['restored'] = True
+
+    referring_page = request.META.get('HTTP_REFERER')
+    return redirect(referring_page)
+
