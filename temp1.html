@@ -1,0 +1,174 @@
+<!-- Name -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flowbite Tags Input</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.css" rel="stylesheet" />
+
+    <style>
+      * {
+        box-shadow: none !important;
+      }
+
+      /* Updated CSS with new class names */
+      #custom-tags-container {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+          padding: 0.25rem;
+          border-radius: 0.25rem;
+      }
+      
+      .custom-tag {
+          background-color: #f2f2f2;
+          padding: 0.25rem 0.5rem;
+          border-radius: 0.50rem;
+          display: inline-flex;
+          align-items: center;
+      }
+      
+      .tag-text {
+          margin-right: 0.25rem;
+      }
+      
+      .tag-close {
+          cursor: pointer;
+          font-weight: bold;
+          color: #999;
+          font-size: 0.8rem;
+      }
+      
+      #custom-tags-suggestions {
+          max-height: 8rem;
+          overflow-y: auto;
+      }
+      
+      /* Style for scrollbar track */
+      #custom-tags-suggestions::-webkit-scrollbar {
+          width: 8px;
+      }
+
+      #custom-tags-suggestions::-webkit-scrollbar-track {
+          background-color: #f1f1f1;
+      }
+
+      /* Style for scrollbar thumb */
+      #custom-tags-suggestions::-webkit-scrollbar-thumb {
+          background-color: #888;
+          border-radius: 4px;
+      }
+
+      /* Hover style for scrollbar thumb */
+      #custom-tags-suggestions::-webkit-scrollbar-thumb:hover {
+          background-color: #555;
+      }
+
+      /* Rest of the CSS remains the same */
+
+    </style>
+</head>
+
+<body>
+<div class="m-4 relative">
+    <label for="custom-tags-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tags</label>
+    <input type="text" id="custom-tags-input" placeholder="Enter tags" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+    <div id="custom-tags-suggestions" class="mt-2 bg-white border border-gray-300 rounded-lg shadow-md hidden"></div>
+
+    <div id="custom-tags-container" class="mt-2"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.js"></script>
+<script>
+    const customTagsInput = document.getElementById('custom-tags-input');
+    const customTagsSuggestions = document.getElementById('custom-tags-suggestions');
+    const customTagsContainer = document.getElementById('custom-tags-container');
+    
+    const predefinedTags = [
+        'programming',
+        'design',
+        'web development',
+        'javascript',
+        'python',
+        'css',
+        'html',
+        'Backend',
+        'frontend',
+        'database'
+        // Add more predefined tags as needed
+    ];
+    
+    function showTagsSuggestions(matchedTags) {
+        const suggestionsHTML = matchedTags.map(tag => `<div class="p-2 cursor-pointer hover:bg-gray-100">${tag}</div>`).join('');
+        customTagsSuggestions.innerHTML = suggestionsHTML;
+        customTagsSuggestions.classList.remove('hidden');
+
+        customTagsSuggestions.querySelectorAll('div').forEach(div => {
+            div.addEventListener('click', event => {
+                const selectedTag = event.target.textContent;
+                if (!customTagsContainer.querySelector(`[data-tag="${selectedTag}"]`)) {
+                    addTag(selectedTag);
+                }
+                customTagsInput.value = '';
+                hideTagsSuggestions();
+            });
+        });
+    }
+    
+    function hideTagsSuggestions() {
+        customTagsSuggestions.innerHTML = '';
+        customTagsSuggestions.classList.add('hidden');
+    }
+    
+    customTagsInput.addEventListener('input', () => {
+        const inputValue = customTagsInput.value.toLowerCase().trim();
+        const matchedTags = predefinedTags.filter(tag => tag.toLowerCase().includes(inputValue));
+        
+        if (matchedTags.length > 0) {
+            showTagsSuggestions(matchedTags);
+        } else {
+            hideTagsSuggestions();
+        }
+    });
+    
+    customTagsInput.addEventListener('focus', () => {
+        if (predefinedTags.length > 0) {
+            showTagsSuggestions(predefinedTags);
+        }
+    });
+    
+    document.addEventListener('click', event => {
+        if (!customTagsInput.contains(event.target) && !customTagsSuggestions.contains(event.target)) {
+            hideTagsSuggestions();
+        }
+    });
+    
+    customTagsInput.addEventListener('keydown', event => {
+        if (event.key === 'Enter' && customTagsInput.value.trim() !== '') {
+            addTag(customTagsInput.value.trim());
+            customTagsInput.value = '';
+            event.preventDefault();
+        }
+    });
+
+    customTagsContainer.addEventListener('click', event => {
+        if (event.target.classList.contains('tag-close')) {
+            const tagToRemove = event.target.getAttribute('data-tag');
+            const tagElement = event.target.parentElement;
+            customTagsContainer.removeChild(tagElement);
+        }
+    });
+
+    function addTag(tagText) {
+        const tagElement = document.createElement('div');
+        tagElement.className = 'custom-tag';
+        tagElement.innerHTML = `
+            <span class="tag-text">${tagText}</span>
+            <span class="tag-close" data-tag="${tagText}">x</span>
+        `;
+        customTagsContainer.appendChild(tagElement);
+    }
+</script>
+</body>
+</html>
