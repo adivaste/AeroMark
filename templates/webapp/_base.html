@@ -136,7 +136,10 @@
           background-color: #555;
       }
 
-      /* Rest of the CSS remains the same */
+      #collection-suggestions {
+        max-height: 8rem; /* Set maximum height for suggestions */
+        overflow-y: auto; /* Add vertical scrollbar when content overflows */
+      }
 
     </style>
     {% endcompress %}
@@ -1105,7 +1108,7 @@
     <div class="bottom-0">
       <!-- Save | Delete Buttons -->
       <div class="px-2 my-4 flex justify-between">
-        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md px-5 py-2 text-center inline-flex items-center mx-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+        <button id="save_bookmark_button" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md px-5 py-2 text-center inline-flex items-center mx-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
           <i class="fa-solid fa-floppy-disk px-2"></i> Save
         </button>
         <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md px-5 py-2 text-center inline-flex items-center mx-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -1116,9 +1119,7 @@
       </div>
     </div>      
   </div>
-
-
-
+  
   </div>
   
 
@@ -1149,18 +1150,12 @@
       const customTagsContainer = document.getElementById('custom-tags-container');
       
       const predefinedTags = [
-          'programming',
-          'design',
-          'web development',
-          'javascript',
-          'python',
-          'css',
-          'html',
-          'Backend',
-          'frontend',
-          'database'
-          // Add more predefined tags as needed
-      ];
+        {% for tag in tags_list %}
+        "{{ tag.name }}",
+        {% endfor %}
+        // Add more predefined tags as needed
+    ];
+
       
       function showTagsSuggestions(matchedTags) {
           const suggestionsHTML = matchedTags.map(tag => `<div class="p-2 cursor-pointer hover:bg-gray-100">${tag}</div>`).join('');
@@ -1233,7 +1228,121 @@
           customTagsContainer.appendChild(tagElement);
       }
   </script>
+
+  <!-- Script for Adding the collection -->
+  <script>
+    const collectionInput = document.getElementById('collection-helper-text');
+    const collectionSuggestions = document.getElementById('collection-suggestions');
+    
+    const predefinedCollections = [
+        'Books',
+        'Movies',
+        'Music',
+        'Recipes',
+        'Travel Plans',
+        'Work Projects'
+        // Add more predefined collection names as needed
+    ];
+    
+    function showCollectionSuggestions(matchedCollections) {
+        const suggestionsHTML = matchedCollections.map(collection => `<div class="p-2 cursor-pointer hover:bg-gray-100">${collection}</div>`).join('');
+        collectionSuggestions.innerHTML = suggestionsHTML;
+        collectionSuggestions.classList.remove('hidden');
+    }
+    
+    function hideCollectionSuggestions() {
+        collectionSuggestions.innerHTML = '';
+        collectionSuggestions.classList.add('hidden');
+    }
+    
+    collectionInput.addEventListener('input', () => {
+        const inputValue = collectionInput.value.toLowerCase(); // Convert input to lowercase
+        const matchedCollections = predefinedCollections.filter(collection => collection.toLowerCase().includes(inputValue));
+        
+        if (matchedCollections.length > 0) {
+            showCollectionSuggestions(matchedCollections);
+        } else {
+            hideCollectionSuggestions();
+        }
+    });
+    
+    collectionInput.addEventListener('focus', () => {
+        if (predefinedCollections.length > 0) {
+            showCollectionSuggestions(predefinedCollections);
+        }
+    });
+    
+    document.addEventListener('click', event => {
+        if (!collectionInput.contains(event.target) && !collectionSuggestions.contains(event.target)) {
+            hideCollectionSuggestions();
+        }
+    });
+    
+    collectionSuggestions.addEventListener('click', event => {
+        if (event.target.tagName === 'DIV') {
+            collectionInput.value = event.target.textContent;
+            hideCollectionSuggestions();
+        }
+    });
+</script>
   
+    <!-- Script for send post request -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const saveButton = document.querySelector("#save_bookmark_button");
+        saveButton.addEventListener("click", saveBookmark);
+      
+        async function saveBookmark() {
+          const url = document.querySelector("#bookmark-url").value;
+          const title = document.querySelector("#bookmark-title").value;
+          const description = document.querySelector("#bookmark-description").value;
+          const note = document.querySelector("#bookmark-note").value;
+          const collection = document.querySelector("#collection-helper-text").value;
+      
+          const customTagsContainer = document.querySelector("#custom-tags-container");
+          const customTagsInputElements = customTagsContainer.querySelectorAll(".custom-tag");
+      
+          const customTags = Array.from(customTagsInputElements).map(input => input.querySelector(".tag-text").innerText);
+          const uniqueCustomTags = [...new Set(customTags)]; // Remove duplicates
+
+          console.log(uniqueCustomTags)
+      
+          const bookmarkData = {
+            url,
+            title,
+            description,
+            note,
+            collection,
+            tags: uniqueCustomTags,
+          };
+      
+          console.log(bookmarkData)
+          try {
+            const response = await fetch("http://localhost:8000/api/bookmarks/", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(bookmarkData),
+            });
+            
+            console.log(bookmarkData)
+            if (response.ok) {
+              // Bookmark saved successfully
+              console.log("Bookmark saved!");
+            } else {
+              // Handle error
+              console.error("Error saving bookmark");
+            }
+          } catch (error) {
+            console.error("Error:", error);
+          }
+
+          location.reload();
+        }
+      });
+      
+    </script>
 </body>
 
 </html>
