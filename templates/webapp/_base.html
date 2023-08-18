@@ -1293,6 +1293,13 @@
         saveButton.addEventListener("click", saveBookmark);
       
         async function saveBookmark() {
+          const saveButtonIcon = saveButton.querySelector(".fa-floppy-disk");
+          const spinnerIcon = '<i class="fa-solid fa-spinner fa-spin px-2"></i>';
+  
+          const originalButtonText = saveButton.innerHTML;
+          saveButton.innerHTML = spinnerIcon + ' Saving...';
+          saveButton.disabled = true;
+  
           const url = document.querySelector("#bookmark-url").value;
           const title = document.querySelector("#bookmark-title").value;
           const description = document.querySelector("#bookmark-description").value;
@@ -1336,12 +1343,39 @@
             }
           } catch (error) {
             console.error("Error:", error);
+          }finally {
+            // Restore the button's original state
+            saveButton.innerHTML = originalButtonText;
+            saveButton.disabled = false;
           }
+  
 
           location.reload();
         }
       });
       
+    </script>
+
+    <!-- Script to get URL, Title and Description of current page -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Get current URL
+        const urlElement = document.querySelector("#bookmark-url");
+        urlElement.value = window.location.href;
+  
+        // Get current title
+        const titleElement = document.querySelector("#bookmark-title");
+        titleElement.value = document.title;
+  
+        // Get description from meta tag
+        const descriptionElement = document.querySelector("#bookmark-description");
+        const metaDescription = document.querySelector('meta[name="description"]');
+        if (metaDescription) {
+          descriptionElement.value = metaDescription.getAttribute("content");
+        } else {
+          descriptionElement.value = "Description not found";
+        }
+      });
     </script>
 </body>
 
