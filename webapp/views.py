@@ -207,6 +207,13 @@ def notes(request):
 def documents(request):
     return render(request, 'webapp/documents.html')
 
+def login(request):
+    return render(request, 'webapp/login.html')
+
+def register(request):
+    return render(request, 'webapp/register.html')
+
+
 def deleteBookmark(request,id):
     api_url = f"http://localhost:8000/api/bookmarks/{id}"
     curl_wrapper = CurlWrapper()

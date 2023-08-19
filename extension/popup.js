@@ -12,8 +12,7 @@ console.log("Assssssssssssssssssssssss")
     "three",
     "four"
     // Add more predefined tags as needed
-];
-
+  ]
   
   function showTagsSuggestions(matchedTags) {
       const suggestionsHTML = matchedTags.map(tag => `<div class="p-2 cursor-pointer hover:bg-gray-100">${tag}</div>`).join('');
@@ -134,16 +133,18 @@ console.log("Assssssssssssssssssssssss")
             body: JSON.stringify(bookmarkData),
           });
           
-          console.log(bookmarkData)
+          alert(response.ok)
           if (response.ok) {
             // Bookmark saved successfully
             console.log("Bookmark saved!");
           } else {
             // Handle error
-            console.error("Error saving bookmark");
+            console.log("Error saving bookmark");
           }
-        } catch (error) {
-          console.error("Error:", error);
+        }
+        catch (error) {
+          alert(error)
+          console.log("Error:", error);
         }finally {
           // Restore the button's original state
           saveButton.innerHTML = "Saved";
@@ -180,8 +181,6 @@ chrome.tabs.query({'active': true, 'windowId': chrome.windows.WINDOW_ID_CURRENT}
 
     }
 );
-
-
 
     // });
 

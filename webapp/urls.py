@@ -15,4 +15,6 @@ urlpatterns = [
     path("dashboard/filter/documents", views.documents, name="documents"),
     path("dashboard/bookmark/delete/<int:id>", views.deleteBookmark, name="deleteBookmark"),
     path("dashboard/bookmark/restore/<int:id>", views.restoreBookmark, name="restoreBookmark"),
+    path("login/", views.login, name="login"),   
+    path("register/", views.register, name="register"),   
 ]
