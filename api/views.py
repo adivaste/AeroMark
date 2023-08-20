@@ -9,6 +9,9 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 import time
 from utils.getThumbnailURL import extract_thumbnail
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
+
 
 
 # ===================================================
@@ -16,6 +19,7 @@ from utils.getThumbnailURL import extract_thumbnail
 # ===================================================
 
 @api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
 def bookmarks_list(request):
      if request.method == 'GET':
         tag = None
@@ -82,7 +86,7 @@ def bookmarks_list(request):
      elif request.method == 'POST':
 
             # Until Authentication is done, hardcoded user
-            request.data['user'] = 1
+            request.data['user'] = request.user.id
 
 
             # Handles the tags, create and get instances
@@ -134,6 +138,7 @@ def bookmarks_list(request):
 # =========================================================
 
 @api_view(["GET","PATCH", "PUT", "DELETE"])
+@permission_classes([IsAuthenticated])
 def bookmarks_detail(request, pk):
       
       # === METHOD :: GET ====
@@ -155,7 +160,7 @@ def bookmarks_detail(request, pk):
                 return Response({"message": "Moved to Trash Successfully"}, status=status.HTTP_200_OK)
 
       print("       ???????      " , request.data)
-      request.data['user'] = 1
+      request.data['user'] = request.user.id
 
       tags = request.data.pop('tags', [])
       tag_instances = []
@@ -224,9 +229,10 @@ def bookmarks_detail(request, pk):
 # ======================================================
 
 @api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
 def collections_list(request):
     
-    request.data['user'] = 1
+    request.data['user'] = request.user.id
 
     if request.method == 'GET':
         collections = Collection.objects.all()
@@ -245,9 +251,10 @@ def collections_list(request):
 # ===========================================================
 
 @api_view(["GET", "PUT", "PATCH", "DELETE"])
+@permission_classes([IsAuthenticated])
 def collections_detail(request, pk):
     
-    request.data['user'] = 2
+    request.data['user'] = request.user.id
 
     collection = get_object_or_404(Collection, pk=pk)
 
@@ -275,6 +282,7 @@ def collections_detail(request, pk):
 # ======================================================
 
 @api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
 def tags_list(request):
     if request.method == 'GET':
         tags = Tag.objects.all()
@@ -293,6 +301,7 @@ def tags_list(request):
 # ==================================================================
 
 @api_view(["GET", "PUT", "PATCH", "DELETE"])
+@permission_classes([IsAuthenticated])
 def tags_detail(request, pk):
     tag = get_object_or_404(Tag, pk=pk)
 

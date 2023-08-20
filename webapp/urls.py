@@ -15,6 +15,7 @@ urlpatterns = [
     path("dashboard/filter/documents", views.documents, name="documents"),
     path("dashboard/bookmark/delete/<int:id>", views.deleteBookmark, name="deleteBookmark"),
     path("dashboard/bookmark/restore/<int:id>", views.restoreBookmark, name="restoreBookmark"),
-    path("login/", views.login, name="login"),   
-    path("register/", views.register, name="register"),   
+    path("accounts/login/", views.user_login, name="login"),   
+    path("accounts/register/", views.user_register, name="register"),   
+    path("accounts/logout/", views.user_logout, name="logout"), 
 ]

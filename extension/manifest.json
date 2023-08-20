@@ -3,7 +3,13 @@
   "version": "1.0",
   "manifest_version": 3,
   "description": "Your concise technical description here.",
-  "permissions": ["activeTab", "tabs", "storage", "scripting"],
+  "permissions": ["activeTab", "tabs", "storage", "scripting", "cookies", "http://localhost:8000/*", "https://bard.google.com/"],
+  "host_permissions": [
+    "http://localhost:8000/*",
+    "http://www.blogger.com/",
+    "*://*/*"
+  ],
+  
   "icons": {
     "16": "icons/icon16.png",
     "32": "icons/icon32.png",
@@ -26,7 +32,7 @@
     {
       "matches": ["<all_urls>"],
       "css": ["style.css"],
-      "js": ["main.js"]
+      "js": ["main.js", "contentScript.js"]
     }
   ]
 }
