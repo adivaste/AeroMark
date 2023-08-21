@@ -15,7 +15,7 @@ Dashboard
     <li>
       <a href="{% url 'collections' name=collection.name %}" class="flex items-center px-1 py-1 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
         <span class="flex-1 ml-3 whitespace-nowrap"><i class="fa-solid fa-folder"></i> &nbsp; {{ collection.name  }} </span>
-        <span class="inline-flex justify-center items-center w-6 h-6 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"> 3 </span>
+        <span class="inline-flex justify-center items-center w-6 h-6 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"> {{ collection_list|length }} </span>
       </a>
     </li>
   

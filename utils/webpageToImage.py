@@ -10,7 +10,7 @@ def test_fullpage_screenshot(device=2):
 
     driver = webdriver.Chrome(chrome_options=chrome_options)
 
-    driver.get("https://github.com/yeshapatel356/Twitter-Sentimental-Analysis")
+    driver.get("https://www.youtube.com/watch?v=jakpo7tj7Qw&list=RDMM&index=5")
     time.sleep(2)
 
     height = driver.execute_script('return document.documentElement.scrollHeight')

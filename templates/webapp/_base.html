@@ -1065,6 +1065,65 @@
     <span class="sr-only">Close menu</span>
   </button>
 
+  <div class="flex flex-col ">
+
+    
+    <div class="px-2 py-1 flex">
+      <!-- URL Input -->
+      <label for="bookmark-url" class="w-24 mr-2 text-sm font-medium text-gray-900 dark:text-white">URL</label>
+      <input type="text" id="bookmark-url" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter URL">
+  </div>
+
+    <div class="px-2 py-1 flex">
+        <!-- Title Input -->
+        <label for="bookmark-title" class="w-24 mr-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
+        <input type="text" id="bookmark-title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter title">
+    </div>
+
+    <div class="px-2 py-1 flex">
+        <!-- Description Input -->
+        <label for="bookmark-description" class="w-24 mr-2 text-sm font-medium text-gray-900 dark:text-white">Desc. </label>
+        <textarea id="bookmark-description" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 h-16 resize-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter description"></textarea>
+    </div>
+
+    <div class="px-2 py-1 flex">
+        <!-- Note Input -->
+        <label for="bookmark-note" class="w-24 mr-2 text-sm font-medium text-gray-900 dark:text-white">Note</label>
+        <textarea id="bookmark-note" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 h-16 resize-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter note"></textarea>
+    </div>
+
+
+    <div class="px-2 py-1 flex">
+      <!-- Collection input -->
+      <label for="bookmark-note" class="w-24 mr-2 text-sm font-medium text-gray-900 dark:text-white">Collection</label>
+      <input type="text" id="collection-helper-text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter collection name">
+      <div id="collection-suggestions" class="mt-2 absolute z-10 bg-white border border-gray-300 rounded-lg shadow-md w-full hidden">
+    </div>
+  </div>
+
+      <div class="px-2 py-1 flex">
+        <label for="custom-tags-input" class="w-24 mr-2 text-sm font-medium text-gray-900 dark:text-white">Tags</label>
+        <input type="text" id="custom-tags-input" placeholder="Enter tags" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+      </div>
+        <div id="custom-tags-suggestions" class="mt-2 bg-white border border-gray-300 rounded-lg shadow-md hidden"></div>
+    <div id="custom-tags-container" class="mt-2"></div>
+  
+  
+
+    <div class="bottom-0">
+      <!-- Save | Delete Buttons -->
+      <div class="px-2 my-4 flex justify-between">
+        <button id="save_bookmark_button" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md px-5 py-2 text-center inline-flex items-center mx-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+          <i class="fa-solid fa-floppy-disk px-2"></i> Save
+        </button>
+        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md px-5 py-2 text-center inline-flex items-center mx-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+          <i class="fa-solid fa-trash px-2 "></i> Delete
+        </button> 
+      </div>
+      
+      </div>
+    </div>    
+
   </div>
 
 
@@ -1163,12 +1222,9 @@
     const collectionSuggestions = document.getElementById('collection-suggestions');
     
     const predefinedCollections = [
-        'Books',
-        'Movies',
-        'Music',
-        'Recipes',
-        'Travel Plans',
-        'Work Projects'
+        {% for collection in collection_list %}
+        "{{ collection.name }}",
+        {% endfor %}
         // Add more predefined collection names as needed
     ];
     
