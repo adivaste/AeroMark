@@ -267,14 +267,22 @@ def bookmarks_detail(request, pk):
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
 def collections_list(request):
-    
-    user_id = extract_user_id_from_jwt(request).get("user_id")
-    request.data['user'] = user_id
 
+    # ==== Extract the USER ID from token
+    extract_response = extract_user_id_from_jwt(request)
+    if "user_id" not in extract_response:
+        return Response({ "error" : extract_response.get("error")})
+    user_id = extract_response.get("user_id")
+    request.data["user"] = user_id
+
+
+    # ==== Method : GET ====
     if request.method == 'GET':
         collections = Collection.objects.filter(user_id=user_id)
         serializer = CollectionSerializer(collections, many=True)
         return Response(serializer.data)
+    
+    # ==== Method : POST ====
     elif request.method == 'POST':
         serializer = CollectionSerializer(data=request.data)
         if serializer.is_valid():
@@ -291,10 +299,19 @@ def collections_list(request):
 @permission_classes([IsAuthenticated])
 def collections_detail(request, pk):
     
-    user_id = extract_user_id_from_jwt(request).get("user_id")
-    request.data['user'] = user_id
+    # ==== Extract the USER ID from token ====
+    extract_response = extract_user_id_from_jwt(request)
+    if "user_id" not in extract_response:
+        return Response({ "error" : extract_response.get("error")})
+    user_id = extract_response.get("user_id")
+    request.data["user"] = user_id
 
+    
+    # ==== Get the respected COLLECTION ====
     collection = get_object_or_404(Collection, pk=pk, user_id=user_id)
+
+
+    # ==== Method : GET/PUT/PATCH/DELETE ====
 
     if request.method == "GET":
         serializer = CollectionSerializer(collection)
@@ -309,6 +326,8 @@ def collections_detail(request, pk):
     else:
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
+
+    # ==== Save If Serializer object is valid ====
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -323,9 +342,15 @@ def collections_detail(request, pk):
 @permission_classes([IsAuthenticated])
 def tags_list(request):
     
-    user_id = extract_user_id_from_jwt(request).get("user_id")
-    request.data['user'] = user_id
+    # ==== Extract the USER ID from token ====
+    extract_response = extract_user_id_from_jwt(request)
+    if "user_id" not in extract_response:
+        return Response({ "error" : extract_response.get("error")})
+    user_id = extract_response.get("user_id")
+    request.data["user"] = user_id
 
+
+    # ==== GET and POST requests ====
     if request.method == 'GET':
         tags = Tag.objects.filter(user_id=user_id)
         serializer = TagSerializer(tags, many=True)
@@ -338,6 +363,7 @@ def tags_list(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+
 # ==================================================================
 # === Operations on each Tag ||  METHODS :: GET, PUT, PATCH, DELETE
 # ==================================================================
@@ -346,11 +372,19 @@ def tags_list(request):
 @permission_classes([IsAuthenticated])
 def tags_detail(request, pk):
 
-    user_id = extract_user_id_from_jwt(request).get("user_id")
-    request["user"] = user_id
+    # ==== Extract the USER ID from token ====
+    extract_response = extract_user_id_from_jwt(request)
+    if "user_id" not in extract_response:
+        return Response({ "error" : extract_response.get("error")})
+    user_id = extract_response.get("user_id")
+    request.data["user"] = user_id
 
+
+    # ==== Get the TAG object ====
     tag = get_object_or_404(Tag, pk=pk, user_id=user_id)
 
+
+    # ==== Methods : GET | PUT | PATCH | DELETE ====
     if request.method == "GET":
         serializer = TagSerializer(tag)
         return Response(serializer.data)
@@ -364,6 +398,7 @@ def tags_detail(request, pk):
     else:
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
+    # ==== Save If Serializer object is valid ====
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -375,17 +410,17 @@ def index(request):
 
 def extract_user_id_from_jwt(request):
     
-    # Get the token from the request (header, query parameter, etc.)
+    # ==== Get the token from REQUEST ====
     token = request.META.get('HTTP_AUTHORIZATION', '').split(' ')[1]
 
     try:
-        # Decode the token using the secret key used during token creation
+        # ==== Decode the token using the secret key used while creating token ====
         decoded_token = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
         
-        # Extract the user ID from the token's payload
+        # ==== Extract the user ID from JWT token ====
         user_id = decoded_token['user_id']
         
-        # Fetch the user object based on the user ID
+        # ==== Fetch the user object based on the user ID ====
         user = User.objects.get(id=user_id)
         
         return {'user_id': user_id, 'username': user.username}
