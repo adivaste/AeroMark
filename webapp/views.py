@@ -1,19 +1,13 @@
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import requests
-import time
 import json
 from utils.CurlWrapper import CurlWrapper
 from utils.getThumbnailURL import extract_thumbnail
 from utils.encodeQueryParameter import encode_query_parameter
-from django.shortcuts import redirect
 from utils.extractSiteName import extract_site_name
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
 from .forms import UserRegistrationForm, LoginForm
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import render, redirect
-from .forms import UserRegistrationForm, LoginForm
 from django.contrib.auth.decorators import login_required
 
 
@@ -92,11 +86,15 @@ def collections(request, name):
     api_url += f"?collection={name}&sort_by={sort_by}"
 
     curl_wrapper = CurlWrapper()
-    curl_response = curl_wrapper.get(api_url)
+    jwt_token = request.session.get('access_token')
+    headers = {'Authorization': "Bearer {}".format(jwt_token)}
+    curl_response = curl_wrapper.get(api_url, headers=headers)
 
     context = {}
     status_code = curl_response.get('status_code')
     response_json = curl_response.get('response_json')
+
+    print(context, name, api_url)
 
     if 200 <= status_code < 300 and response_json:
         context['bookmarks_list'] = response_json
@@ -125,7 +123,9 @@ def tags(request, name):
     api_url += f"?tag={name}&sort_by={sort_by}"
 
     curl_wrapper = CurlWrapper()
-    curl_response = curl_wrapper.get(api_url)
+    jwt_token = request.session.get('access_token')
+    headers = {'Authorization': "Bearer {}".format(jwt_token)}
+    curl_response = curl_wrapper.get(api_url, headers=headers)
 
     context = {}
     status_code = curl_response.get('status_code')

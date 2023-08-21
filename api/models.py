@@ -28,6 +28,7 @@ class Collection(models.Model):
         return self.name
     
 class Tag(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     
     def __str__(self):

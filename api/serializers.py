@@ -7,7 +7,7 @@ class TagSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tag
-        fields = ('name',)
+        fields = ("__all__")
 
     # For the POST request, create the object of Model "Tag"
     def create(self, validated_data):

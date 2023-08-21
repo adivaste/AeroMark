@@ -63,7 +63,6 @@ class CurlWrapper:
             command.extend(['--data', data])
 
         try:
-            print(command)
             output = subprocess.run(command, capture_output=True, text=True, check=True)
             status_code = int(output.stdout[-3:])
             response = output.stdout[:-3]

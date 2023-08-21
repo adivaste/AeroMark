@@ -1,72 +1,98 @@
-from django.shortcuts import render
-from django.shortcuts import get_object_or_404
-from rest_framework.decorators import api_view
+# ===================================================
+# === Import required modules and fucntions      ====
+# ===================================================
+
+
+
+from django.shortcuts import render, get_object_or_404
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from api.models import Bookmark, Tag, Collection
 from api.serializers import BookmarkSerializer, TagSerializer, CollectionSerializer
 from django.http import JsonResponse
 from django.contrib.auth.models import User
-import time
+from django.conf import settings
 from utils.getThumbnailURL import extract_thumbnail
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.decorators import api_view, permission_classes
+import time
+import jwt
+
 
 
 
 # ===================================================
 # === Get list of boookmarks ||  METHODS :: GET, POST
 # ===================================================
-
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
 def bookmarks_list(request):
+     
+     # ==== Retrieve User ID from a Token ====
+     extract_response = extract_user_id_from_jwt(request)
+     if "user_id" not in extract_response:
+         return Response({ "error" : extract_response.get("error")})
+     user_id = extract_response.get("user_id")
+     request.data["user"] = user_id
+
+
+     # ==== If requested method is GET ====
      if request.method == 'GET':
+
+        # ==== Check that perticular TAG | COLLECTION | TRASH | ORDER is requested or not ====
+        # ==== Store the default values ====
         tag = None
         collection = None
         sort_by = 'recent'
         trash = False
 
+        # ==== Data to return back ====
         data = None
 
-        # Check for sort by
-        sort_possible_options = ['site_az', 'site_za', 'title_az', 'title_za', 'recent', 'older']
-        req_sort_by = request.query_params.get('sort_by')
-        if req_sort_by in sort_possible_options:
-            sort_by = req_sort_by
 
-        # Check for collection, tag, trash from request
-        req_collection = request.query_params.get('collection')
-        req_tag = request.query_params.get('tag')
-        req_trash = request.query_params.get('trash')
+        # ==== Check for SORT BY ====
+        try:
+            req_sort_by = request.query_params.get('sort_by')
+            sort_possible_options = ['site_az', 'site_za', 'title_az', 'title_za', 'recent', 'older']
+            if req_sort_by in sort_possible_options:
+                sort_by = req_sort_by
+        except:
+             pass
 
-        # Check for trash
-        if req_trash is not None and req_trash == "True":
-             trash=True
+        # ==== Check for COLLECTION | TAG | TRASH ====
+        try: 
+            req_collection = request.query_params.get('collection')
+            req_tag = request.query_params.get('tag')
+            req_trash = request.query_params.get('trash')
 
-        # Check for collection
-        if req_collection and Collection.objects.filter(name=req_collection).exists():
-            collection = req_collection
+            # Check for trash
+            if req_trash == "True" or req_trash == True:
+                trash = True
 
-        # Check for tags
-        elif not req_collection and req_tag and Tag.objects.filter(name=req_tag).exists():
-            tag = req_tag
+            # Check for collection
+            if req_collection:
+                collection = req_collection
 
-        # Deciding what data to send
-        if not collection and not tag:
-            data = Bookmark.objects.all().filter()
-        elif tag:
-            data = Bookmark.objects.filter(tags__name=str(tag))
+            # Check for tags
+            elif not collection and req_tag:
+                tag = req_tag
+        except:
+             pass
+        
+
+        # ==== Decide what data to send ====
+        if trash:
+            data = Bookmark.objects.filter(is_trash=True, user_id=user_id)
         else:
-            data = Bookmark.objects.filter(collection__name=str(collection))
+            if tag:
+                data = Bookmark.objects.filter(tags__name=str(tag), is_trash=False, user_id=user_id)
+            elif collection:
+                data = Bookmark.objects.filter(collection__name=str(collection), is_trash=False, user_id=user_id)
+            else:
+                data = Bookmark.objects.filter(is_trash=False, user_id=user_id)
 
-        if (trash):
-             data = Bookmark.objects.filter(is_trash=True)
-        else:
-             data = data.filter(is_trash=False)
 
-
-        # Deciding sorting order
+        # ==== Deciding sorting order ====
         if sort_by == 'site_az':
             data = data.order_by('url')
         elif sort_by == 'site_za':
@@ -85,26 +111,33 @@ def bookmarks_list(request):
      
      elif request.method == 'POST':
 
-            # Until Authentication is done, hardcoded user
-            request.data['user'] = request.user.id
+            # ==== Retrieve User ID from a Token ====
+            extract_response = extract_user_id_from_jwt(request)
+            if "user_id" not in extract_response:
+                return Response({ "error" : extract_response.get("error")})
+            user_id = extract_response.get("user_id")
+            request.data["user"] = user_id
 
+            print(user_id)
 
-            # Handles the tags, create and get instances
+            # ==== Handles the tags, create and get instances ====
+            userInstance = User.objects.get(id=user_id)
             tags = request.data.pop('tags', [])
             tag_instances = []
             for tag_name in tags:
-                  tag_serializer = TagSerializer(data={'name': tag_name})
-                  if tag_serializer.is_valid():
-                        tag_instance, _ = Tag.objects.get_or_create(name=tag_name)
-                        tag_instances.append(tag_instance)
-                  else:
-                        return Response(tag_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                tag_serializer = TagSerializer(data={'name': tag_name, 'user': user_id})
+                if tag_serializer.is_valid():
+                    tag_instance, _ = Tag.objects.get_or_create(name=tag_name, user=userInstance)
+                    tag_instances.append(tag_instance)
+                else:
+                    print(tag_serializer.errors)
+                    return Response(tag_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
             request.data['tags'] = [tag.id for tag in tag_instances]  # Convert tags to a list of tag IDs
 
 
-            # Getting collection instances or create it
+            # ===== Getting collection instances or create it ====
             collection_name = request.data.get('collection')  
-            userInstance = User.objects.get(id=1)
             if collection_name :
                   collection, _ = Collection.objects.get_or_create(name=collection_name, user=userInstance)
             else:
@@ -113,8 +146,7 @@ def bookmarks_list(request):
             request.data["collection"]=collection.id
 
 
-
-            # Creating thumbnail
+            # ==== Creating thumbnail from URL ====
             try:
                  url = extract_thumbnail(request.data["url"])
                  request.data["thumbnail_url"] = url
@@ -123,7 +155,7 @@ def bookmarks_list(request):
                  pass
             
 
-            # Creating the objects of models
+            # ==== Creating the object of BOOKMARK ====
             serializer = BookmarkSerializer(data=request.data)
             if serializer.is_valid():
                   bookmark = serializer.save()
@@ -131,7 +163,7 @@ def bookmarks_list(request):
 
                   return Response(serialized_data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
 
 # =========================================================
 # === Operations on each bookmark ||  METHODS :: GET, POST
@@ -141,15 +173,22 @@ def bookmarks_list(request):
 @permission_classes([IsAuthenticated])
 def bookmarks_detail(request, pk):
       
+      extract_response = extract_user_id_from_jwt(request)
+      if "user_id" not in extract_response:
+        return Response({ "error" : extract_response.get("error")})
+      user_id = extract_response.get("user_id")
+      request.data["user"] = user_id
+
+
       # === METHOD :: GET ====
       if request.method == "GET":
-            bookmark = get_object_or_404(Bookmark,pk=pk)
+            bookmark = get_object_or_404(Bookmark, pk=pk, user_id=user_id)
             serializer = BookmarkSerializer(bookmark)
             return Response(serializer.data, status=status.HTTP_200_OK)
       
       # === METHOD :: DELETE ===
       elif request.method == "DELETE":
-            bookmark = get_object_or_404(Bookmark,pk=pk)
+            bookmark = get_object_or_404(Bookmark,pk=pk, user_id=user_id)
 
             if bookmark.is_trash:
                 bookmark.delete()
@@ -159,22 +198,19 @@ def bookmarks_detail(request, pk):
                 bookmark.save()
                 return Response({"message": "Moved to Trash Successfully"}, status=status.HTTP_200_OK)
 
-      print("       ???????      " , request.data)
-      request.data['user'] = request.user.id
-
       tags = request.data.pop('tags', [])
       tag_instances = []
       for tag_name in tags:
             tag_serializer = TagSerializer(data={'name': tag_name})
             if tag_serializer.is_valid():
-                  tag_instance, _ = Tag.objects.get_or_create(name=tag_name)
+                  tag_instance, _ = Tag.objects.get_or_create(name=tag_name, user_id=user_id)
                   tag_instances.append(tag_instance)
             else:
                   return Response(tag_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
       request.data['tags'] = [tag.id for tag in tag_instances]  # Convert tags to a list of tag IDs
 
       collection_name = request.data.get('collection')  # Assuming the collection name is passed in the request
-      userInstance = User.objects.get(id=1)
+      userInstance = User.objects.get(id=user_id)
       if collection_name :
             collection, _ = Collection.objects.get_or_create(name=collection_name, user=userInstance)
       else:
@@ -183,7 +219,7 @@ def bookmarks_detail(request, pk):
 
       # === METHOD :: PATCH ===
       if request.method == "PATCH":
-            bookmark = get_object_or_404(Bookmark,pk=pk)
+            bookmark = get_object_or_404(Bookmark,pk=pk, user_id=user_id)
 
             
             # Try to update the thumbnail if "url" exists
@@ -208,7 +244,7 @@ def bookmarks_detail(request, pk):
       
       # === METHOD :: PUT ===
       elif request.method == "PUT":
-            bookmark = get_object_or_404(Bookmark,pk=pk)
+            bookmark = get_object_or_404(Bookmark,pk=pk, user_id=user_id)
 
             # Update the thumbnail url for given "url" exists
             try:
@@ -232,10 +268,11 @@ def bookmarks_detail(request, pk):
 @permission_classes([IsAuthenticated])
 def collections_list(request):
     
-    request.data['user'] = request.user.id
+    user_id = extract_user_id_from_jwt(request).get("user_id")
+    request.data['user'] = user_id
 
     if request.method == 'GET':
-        collections = Collection.objects.all()
+        collections = Collection.objects.filter(user_id=user_id)
         serializer = CollectionSerializer(collections, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
@@ -254,9 +291,10 @@ def collections_list(request):
 @permission_classes([IsAuthenticated])
 def collections_detail(request, pk):
     
-    request.data['user'] = request.user.id
+    user_id = extract_user_id_from_jwt(request).get("user_id")
+    request.data['user'] = user_id
 
-    collection = get_object_or_404(Collection, pk=pk)
+    collection = get_object_or_404(Collection, pk=pk, user_id=user_id)
 
     if request.method == "GET":
         serializer = CollectionSerializer(collection)
@@ -284,8 +322,12 @@ def collections_detail(request, pk):
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
 def tags_list(request):
+    
+    user_id = extract_user_id_from_jwt(request).get("user_id")
+    request.data['user'] = user_id
+
     if request.method == 'GET':
-        tags = Tag.objects.all()
+        tags = Tag.objects.filter(user_id=user_id)
         serializer = TagSerializer(tags, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
@@ -303,7 +345,11 @@ def tags_list(request):
 @api_view(["GET", "PUT", "PATCH", "DELETE"])
 @permission_classes([IsAuthenticated])
 def tags_detail(request, pk):
-    tag = get_object_or_404(Tag, pk=pk)
+
+    user_id = extract_user_id_from_jwt(request).get("user_id")
+    request["user"] = user_id
+
+    tag = get_object_or_404(Tag, pk=pk, user_id=user_id)
 
     if request.method == "GET":
         serializer = TagSerializer(tag)
@@ -326,3 +372,29 @@ def tags_detail(request, pk):
 
 def index(request):
       return JsonResponse({"msg" : "Hello"})
+
+def extract_user_id_from_jwt(request):
+    
+    # Get the token from the request (header, query parameter, etc.)
+    token = request.META.get('HTTP_AUTHORIZATION', '').split(' ')[1]
+
+    try:
+        # Decode the token using the secret key used during token creation
+        decoded_token = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
+        
+        # Extract the user ID from the token's payload
+        user_id = decoded_token['user_id']
+        
+        # Fetch the user object based on the user ID
+        user = User.objects.get(id=user_id)
+        
+        return {'user_id': user_id, 'username': user.username}
+    
+    except jwt.ExpiredSignatureError:
+        return {'error': 'Token has expired', 'status':401}
+    
+    except jwt.InvalidTokenError:
+        return {'error': 'Invalid token', "status":401}
+    
+    except User.DoesNotExist:
+        return {'error': 'User not found', "status":404}

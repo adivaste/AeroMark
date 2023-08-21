@@ -158,11 +158,8 @@ async function saveBookmark() {
             saveButton.disabled = false;
         }
     });
-}
+  }
 
-
-
-  
 });
 
 
