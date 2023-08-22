@@ -4,7 +4,7 @@
 
 
 
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
@@ -18,7 +18,7 @@ from utils.getThumbnailURL import extract_thumbnail
 from django.db.models import Q
 import time
 import jwt
-
+import csv
 
 
 
@@ -461,3 +461,44 @@ def search_bookmarks(request):
 
     serializer = BookmarkSerializer(search_results, many=True)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def download_csv(request, type, identifier=None):
+    user_id = extract_user_id_from_jwt(request).get("user_id")
+
+    if type == 'collection':
+        try:
+            collection = Collection.objects.get(name=identifier, user_id=user_id)
+        except Collection.DoesNotExist:
+            return Response({"error": "Collection not found"}, status=status.HTTP_404_NOT_FOUND)
+        bookmarks = Bookmark.objects.filter(collection=collection, user_id=user_id)
+        filename = f'{collection.name}_bookmarks.csv'
+
+    elif type == 'tag':
+        try:
+            tag = Tag.objects.get(name=identifier, user_id=user_id)
+        except Tag.DoesNotExist:
+            return Response({"error": "Tag not found"}, status=status.HTTP_404_NOT_FOUND)
+        bookmarks = Bookmark.objects.filter(tags=tag, user_id=user_id)
+        filename = f'{tag.name}_bookmarks.csv'
+
+    else:
+        bookmarks = Bookmark.objects.filter(user_id=user_id)
+        filename = 'all_bookmarks.csv'
+
+    # Create the CSV response
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+
+    writer = csv.writer(response)
+    writer.writerow(['Title', 'URL', 'Description', 'Tags', 'Collection', 'Created At'])
+
+    for bookmark in bookmarks:
+        tag_names = ", ".join([tag.name for tag in bookmark.tags.all()])
+        collection_name = bookmark.collection.name if bookmark.collection else "No Collection"
+        writer.writerow([bookmark.title, bookmark.url, bookmark.description, tag_names, collection_name, bookmark.created_at])
+    
+    print(filename)
+    return response

@@ -1,7 +1,8 @@
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 import requests
 import json
+import csv
 from utils.CurlWrapper import CurlWrapper
 from utils.getThumbnailURL import extract_thumbnail
 from utils.encodeQueryParameter import encode_query_parameter
@@ -72,8 +73,10 @@ def user_logout(request):
 def index(request):
     return render(request, 'webapp/index.html')
 
+
 @login_required
 def collections(request, name):
+    collection_name = name
     api_url = f"http://localhost:8000/api/bookmarks/"
 
     # Extract query parameters from user's request
@@ -106,12 +109,15 @@ def collections(request, name):
     
     listContext = getTagsAndCollectionList(request)
     context = {**context, **listContext}
+    context['collection_name'] = collection_name
+    context['type'] = "collection"
 
     return render(request, 'webapp/collections.html', context)
 
 
 @login_required
 def tags(request, name):
+    tag_name = name
     api_url = f"http://localhost:8000/api/bookmarks/"
 
     # Extract query parameters from user's request
@@ -143,6 +149,8 @@ def tags(request, name):
     
     listContext = getTagsAndCollectionList(request)
     context = {**context, **listContext}
+    context['tag_name'] = tag_name
+    context['type'] = "tag"
 
     return render(request, 'webapp/tags.html', context)
 
@@ -399,3 +407,27 @@ def restoreBookmark(request,id):
     referring_page = request.META.get('HTTP_REFERER')
     return redirect(referring_page)
 
+
+@login_required
+def download_csv(request, type, identifier=None):
+
+    api_url = f'http://localhost:8000/api/download/csv/{type}/{identifier}/'
+    if (type == "all"):
+        api_url = f'http://localhost:8000/api/download/csv/{type}/'
+    
+    jwt_token = request.session.get('access_token')
+    headers = {'Authorization': "Bearer {}".format(jwt_token)}
+    response = requests.get(api_url, headers=headers)
+
+
+    if response.status_code == 200:
+        if identifier:
+            filename = "" + type + "_" + identifier + ".csv"
+        else:
+            filename = "all_bookmarks.csv"
+
+        response = HttpResponse(response.content, content_type='text/csv')
+        response['Content-Disposition'] = f'attachment; filename="{filename}"'
+        return response
+    else:
+        return HttpResponse('Error while fetching CSV data', status=500)

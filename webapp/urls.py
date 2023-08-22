@@ -19,4 +19,6 @@ urlpatterns = [
     path("accounts/login/", views.user_login, name="login"),   
     path("accounts/register/", views.user_register, name="register"),   
     path("accounts/logout/", views.user_logout, name="logout"), 
+    path('download-csv/<str:type>/', views.download_csv, name='all_download_csv'),
+    path('download-csv/<str:type>/<str:identifier>/', views.download_csv, name='category_download_csv'),
 ]

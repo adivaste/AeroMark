@@ -13,7 +13,7 @@
     <title>Django + Tailwind CSS + Flowbite</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500&family=Poppins:wght@200;300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     {% compress css %}
@@ -182,7 +182,7 @@
               alt="AeroSpace Logo"
               style="scale: 70%;"
             />
-            <span class="logo self-center text-2xl font-semibold whitespace-nowrap dark:text-white">AeroMark</span>
+            <span style="font-family: 'Plus Jakarta Sans', sans-serif !important" class="logo self-center text-2xl font-semibold whitespace-nowrap dark:text-white">AeroMark</span>
           </a>
         </div>
 
@@ -906,12 +906,19 @@
               >
                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
                   <li>
-                    <a href="" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">All Backup</a>
+                    <a href="{% url 'all_download_csv' 'all' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">All Backup</a>
                   </li>
                
-                  <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Current Collection</a>
-                  </li>
+                  {% if type == 'collection' %}
+                    <li>
+                        <a href="{% url 'category_download_csv' 'collection' collection_name %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Current Collection</a>
+                    </li>
+                    {% elif type == 'tag' %}
+                    <li>
+                        <a href="{% url 'category_download_csv' 'tag' tag_name %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Current Tag</a>
+                    </li>
+                  {% endif %}
+
 
 
 

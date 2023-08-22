@@ -15,6 +15,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500&family=Poppins:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 
     {% compress css %}
     <link rel="stylesheet" href="{% static 'src/output.css' %}"> 
@@ -25,10 +28,16 @@
 <body class="bg-green-50 w-screen h-screen  ">
     <section class="bg-gray-50 dark:bg-gray-900 ">
         <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-            <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-                <img class="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo">
-                Flowbite    
-            </a>
+            <a href="/dashboard" class="text-grad flex items-center justify-between my-4 mr-4" style="font-family: 'Plus Jakarta Sans', sans-serif !important;">
+                <img
+                  src="https://i.ibb.co/3c9QZG9/bookmark-5.png"
+                  class="mr-1 h-8"
+                  alt="AeroSpace Logo"
+                  style="scale: 70%;"
+                />
+                <span class="logo self-center text-2xl font-semibold whitespace-nowrap dark:text-white">AeroMark</span>
+              </a>
+
             <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                 <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
                     <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
