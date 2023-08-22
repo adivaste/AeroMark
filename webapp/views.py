@@ -101,7 +101,9 @@ def collections(request, name):
 
         for bookmark in context['bookmarks_list']:
             bookmark['site_name'] = extract_site_name(bookmark['url'])
-
+    elif status_code == 401:
+        return redirect("http://localhost:8000/accounts/logout")
+    
     listContext = getTagsAndCollectionList(request)
     context = {**context, **listContext}
 
@@ -136,7 +138,9 @@ def tags(request, name):
 
         for bookmark in context['bookmarks_list']:
             bookmark['site_name'] = extract_site_name(bookmark['url'])
-            
+    elif status_code == 401:
+        return redirect("http://localhost:8000/accounts/logout")
+    
     listContext = getTagsAndCollectionList(request)
     context = {**context, **listContext}
 
@@ -160,27 +164,32 @@ def getTagsAndCollectionList(request):
     response_json = curl_response.get('response_json')
     if 200 <= status_code < 300 and response_json:
         context['tags_list'] = response_json
+    elif status_code == 401:
+        return redirect("http://localhost:8000/accounts/logout")
 
     status_code2 = curl_response2.get('status_code')
     response_json2 = curl_response2.get('response_json')
     if 200 <= status_code2 < 300 and response_json2:
         context['collection_list'] = response_json2
+    elif status_code == 401:
+        return redirect("http://localhost:8000/accounts/logout")
     
     return context
 
 @login_required
 def dashboard(request):
     context = getTagsAndCollectionList(request)
+    try :
+        if context.status_code == 302:
+            return context;
+    except:
+        pass
+    
     return render(request, 'webapp/dashboard.html', context)
 
 
 @login_required
 def all_bookmarks(request):
-
-    # jwt_token2 = request.cookie.get('access_token')
-    # print(jwt_token)
-    print("HIIII")
-
 
     api_url = f"http://localhost:8000/api/bookmarks/"
 
@@ -206,6 +215,8 @@ def all_bookmarks(request):
 
         for bookmark in context['bookmarks_list']:
             bookmark['site_name'] = extract_site_name(bookmark['url'])
+    elif status_code == 401:
+        return redirect("http://localhost:8000/accounts/logout")
 
     listContext = getTagsAndCollectionList(request)
     context = {**context, **listContext}
@@ -241,7 +252,9 @@ def unsorted(request):
 
         for bookmark in context['bookmarks_list']:
             bookmark['site_name'] = extract_site_name(bookmark['url'])
-
+    elif status_code == 401:
+        return redirect("http://localhost:8000/accounts/logout")
+    
     print("=====!====", curl_response)
     listContext = getTagsAndCollectionList(request)
     context = {**context, **listContext}
@@ -276,6 +289,9 @@ def trash(request):
 
         for bookmark in context['bookmarks_list']:
             bookmark['site_name'] = extract_site_name(bookmark['url'])
+    elif status_code == 401:
+        return redirect("http://localhost:8000/accounts/logout")
+    
 
     print("=====!====", curl_response)
     listContext = getTagsAndCollectionList(request)
@@ -319,7 +335,9 @@ def deleteBookmark(request,id):
 
     if 200 <= status_code < 300 and response_json:
         context['deleted'] = True
-
+    elif status_code == 401:
+        return redirect("http://localhost:8000/accounts/logout")
+    
     referring_page = request.META.get('HTTP_REFERER')
     return redirect(referring_page)
 
@@ -341,7 +359,9 @@ def restoreBookmark(request,id):
 
     if 200 <= status_code < 300 and response_json:
         context['restored'] = True
-
+    elif status_code == 401:
+        return redirect("http://localhost:8000/accounts/logout")
+    
     referring_page = request.META.get('HTTP_REFERER')
     return redirect(referring_page)
 

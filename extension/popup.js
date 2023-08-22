@@ -146,7 +146,12 @@ async function saveBookmark() {
             if (response.ok) {
                 // Bookmark saved successfully
                 console.log("Bookmark saved!");
-            } else {
+            }
+            else if (response.status === 401) {
+              // Unauthorized, redirect to login page
+              chrome.tabs.create({ url: "http://localhost:8000/accounts/logout" });
+            }
+             else {
                 // Handle error
                 console.error("Error saving bookmark");
             }

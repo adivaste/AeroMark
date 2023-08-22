@@ -4,7 +4,7 @@
 
 
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
@@ -426,7 +426,9 @@ def extract_user_id_from_jwt(request):
         return {'user_id': user_id, 'username': user.username}
     
     except jwt.ExpiredSignatureError:
-        return {'error': 'Token has expired', 'status':401}
+        print("wwwwwwww")
+        return redirect("http://localhost:8000/accounts/login")
+        # return {'error': 'Token has expired', 'status':401}
     
     except jwt.InvalidTokenError:
         return {'error': 'Invalid token', "status":401}
