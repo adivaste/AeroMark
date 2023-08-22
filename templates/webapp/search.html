@@ -1,0 +1,54 @@
+{% extends "webapp/dashboard.html" %}
+
+
+<!-- ===== Name of Category title ===== -->
+{% block category_title %}
+All Bookmarks
+{% endblock category_title %}     
+<!-- ===== END OF Name of Category title ===== -->
+
+
+
+<!-- ===== List of bookmarks ===== -->
+{% block bookmarks %}
+
+    {% for bookmark in bookmarks_list %}
+    <div class="py-3 border-t border-b bookmark-item">
+        <div class="flex items-start">
+            <div class="w-12 h-12 md:w-16 md:h-16 flex-shrink-0">
+                <img src="{{ bookmark.thumbnail_url }}" alt="Bookmark Image" class="w-full h-full object-cover rounded-md">
+            </div>
+            <div class="bookmark-info flex-grow ml-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-base font-semibold">{{ bookmark.title }}</h2>
+                        <p class="text-gray-600 text-sm">{{ bookmark.note }}</p>
+                        <a href="{{ bookmark.url }}" target="_blank" class="text-blue-500 hover:underline text-sm">{{ bookmark.site_name }}</a>
+                    </div>
+                    <div class="bookmark-actions">
+                      <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
+                          <i class="text-lg far fa-pen-to-square" data-drawer-target="edit_bookmark_drawer" data-drawer-show="edit_bookmark_drawer" data-drawer-backdrop="false" data-drawer-placement="right" aria-controls="edit_bookmark_drawer"></i>
+                      </span>
+                      <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
+                          
+                          <a href="{% url 'deleteBookmark'  id=bookmark.id %}"><i class="text-lg fas fa-trash"></i> </a>
+                      </span>
+                      <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
+                        <i class="text-lg far fa-eye" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-backdrop="false" data-drawer-placement="right" aria-controls="drawer-right-example"></i>
+                      </span>
+                      <span class="action-item p-1 border rounded bg-gray-300 w-8 h-8 flex items-center justify-center">
+                          <a href="{{ bookmark.url }}" target="_blank">
+                              <i class="text-lg fas fa-plus"></i>
+                          </a>
+                      </span>
+                  </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% endfor %}
+
+{% endblock bookmarks %}
+<!-- ===== END OF List of bookmarks ===== -->

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="264.58334" height="264.58334">
+  <rect
+    style="fill:#f7f7f7;fill-opacity:0.5;stroke:none;stroke-width:10.5833;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+    id="rect26969"
+    width="264.58334"
+    height="264.58334"
+    x="-1.350586e-05"
+    y="-1.350586e-05" />
+  <g
+    id="g7961"
+    transform="translate(291.26611,-11.844459)">
+    <path
+      id="path856"
+      style="color:#000000;fill:white;fill-opacity:0.5;stroke:none;stroke-width:1;stroke-opacity:1;-inkscape-stroke:none;paint-order:fill markers stroke"
+      d="m -158.9748,180.52786 -39.9427,22.4621 V 90.431955 c 0,-2.80354 2.34582,-5.14968 5.14896,-5.14968 l 34.79387,2e-5 2.2e-4,6.84823 h -33.09574 v 0 99.151365 l 33.09539,-18.61164 z" />
+    <path
+      id="path942"
+      style="color:#000000;fill:white;fill-opacity:0.5;stroke:none;stroke-width:1;stroke-opacity:1;-inkscape-stroke:none;paint-order:fill markers stroke"
+      d="m -158.9741,180.52786 39.9427,22.4621 V 90.431955 c 0,-2.80354 -2.34582,-5.14968 -5.14896,-5.14968 l -34.79387,2e-5 -2.2e-4,6.84823 h 33.09574 v 0 99.151365 l -33.09539,-18.61164 z" />
+  </g>
+</svg>

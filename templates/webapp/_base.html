@@ -27,6 +27,15 @@
       body{
         font-family: 'SF Pro Display';
       }
+
+      .text-grad{
+          color: #28313B;
+          background-image: -webkit-linear-gradient(0deg, #28313B 85%, #485461 89%);
+          background-clip: text;
+          -webkit-background-clip: text;
+          -fill-color: transparent;
+          -webkit-text-fill-color: transparent;
+      }
       
       .logo{
         font-family: 'Poppins', sans-serif;
@@ -166,18 +175,19 @@
             <span class="sr-only">Toggle sidebar</span>
         </button>
 
-          <a href="https://flowbite.com" class="flex items-center justify-between mr-4">
+          <a href="/dashboard" class="text-grad flex items-center justify-between mr-4">
             <img
-              src="https://i.ibb.co/SVMFx63/Asd-Untitled-Project.jpg"
+              src="https://i.ibb.co/3c9QZG9/bookmark-5.png"
               class="mr-1 h-8"
               alt="AeroSpace Logo"
+              style="scale: 70%;"
             />
             <span class="logo self-center text-2xl font-semibold whitespace-nowrap dark:text-white">AeroMark</span>
           </a>
         </div>
 
         <div class="flex items-center lg:order-2">
-          <form action="#" method="GET" class="hidden md:block md:pl-2">
+          <form action="{% url 'search'  %}" method="GET" class="hidden md:block md:pl-2">
             <label for="topbar-search" class="sr-only">Search</label>
             <div class="relative md:w-64 md:w-96">
               <div
@@ -196,7 +206,7 @@
                   ></path>
                 </svg>
               </div>
-              <input type="text" name="email" id="topbar-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Search"/>
+              <input type="text" name="query" id="topbar-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Search"/>
             </div>
           </form>
 
@@ -214,7 +224,7 @@
             <span class="sr-only">Open user menu</span>
             <img
               class="w-10 h-10 rounded-full ring-2 ring-gray-300 "
-              src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=388&q=80"
+              src="https://image.winudf.com/v2/image1/bmV0LndsbHBwci5ib3lzX3Byb2ZpbGVfcGljdHVyZXNfc2NyZWVuXzBfMTY2NzUzNzYxN18wOTk/screen-0.webp?fakeurl=1&type=.webp"
               alt="user photo"
               style="object-fit: cover;"
             />

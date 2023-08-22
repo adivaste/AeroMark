@@ -15,6 +15,7 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.conf import settings
 from utils.getThumbnailURL import extract_thumbnail
+from django.db.models import Q
 import time
 import jwt
 
@@ -435,3 +436,28 @@ def extract_user_id_from_jwt(request):
     
     except User.DoesNotExist:
         return {'error': 'User not found', "status":404}
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def search_bookmarks(request):
+    
+    # ==== Extract the USER ID from token ====
+    extract_response = extract_user_id_from_jwt(request)
+    if "user_id" not in extract_response:
+        return Response({ "error" : extract_response.get("error")})
+    user_id = extract_response.get("user_id")
+    request.data["user"] = user_id
+
+
+    search_query = request.query_params.get('query')
+    if not search_query:
+        return Response({"error": "Please provide a search query"}, status=status.HTTP_400_BAD_REQUEST)
+
+    search_results = Bookmark.objects.filter(
+        Q(title__icontains=search_query) | Q(url__icontains=search_query),
+        user_id=user_id
+    )
+
+    serializer = BookmarkSerializer(search_results, many=True)
+    return Response(serializer.data)

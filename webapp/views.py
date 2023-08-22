@@ -320,6 +320,40 @@ def notes(request):
 def documents(request):
     return render(request, 'webapp/documents.html')
 
+@login_required
+def search(request):
+    api_url = f"http://localhost:8000/api/search/"
+
+    # Extract query parameters from user's request
+    search = request.GET.get('query', '')  
+
+    # Append query parameters to the API URL
+    search = encode_query_parameter(search)
+    api_url += f"?query={search}"
+
+    curl_wrapper = CurlWrapper()
+    
+    jwt_token = request.session.get('access_token')
+    headers = {'Authorization': "Bearer {}".format(jwt_token)}
+    curl_response = curl_wrapper.get(api_url, headers=headers)
+    
+    context = {}
+    status_code = curl_response.get('status_code')
+    response_json = curl_response.get('response_json')
+
+    if 200 <= status_code < 300 and response_json:
+        context['bookmarks_list'] = response_json
+
+        for bookmark in context['bookmarks_list']:
+            bookmark['site_name'] = extract_site_name(bookmark['url'])
+    elif status_code == 401:
+        return redirect("http://localhost:8000/accounts/logout")
+
+    listContext = getTagsAndCollectionList(request)
+    context = {**context, **listContext}
+
+    return render(request, 'webapp/search.html', context)
+
 
 @login_required
 def deleteBookmark(request,id):

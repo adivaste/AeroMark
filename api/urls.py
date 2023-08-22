@@ -9,4 +9,6 @@ urlpatterns = [
     path("collections/<int:pk>", views.collections_detail, name="collections-detail"),
     path("tags/", views.tags_list, name="tags_list"),
     path("tags/<int:pk>", views.tags_detail, name="tags-detail"),
+    path('search/', views.search_bookmarks, name='search_bookmarks'),
+
 ]
