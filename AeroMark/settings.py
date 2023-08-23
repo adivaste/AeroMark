@@ -39,13 +39,24 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    
+    "django.contrib.sites",
     "django_browser_reload",
     "rest_framework",
     'compressor',  
     "webapp",
-    "api"
+    "api",
 
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.github',
 ]
+
+SITE_ID = 1
+LOGIN_REDIRECT_URL = '/'
+SOCIALACCOUNT_LOGIN_ON_GET = False
 
 COMPRESS_ROOT = BASE_DIR / 'static'
 
@@ -62,7 +73,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    # "webapp.middleware.JWTTokenMiddleware",
+    "webapp.middleware.JWTMiddleware",
 ]
 
 ROOT_URLCONF = "AeroMark.urls"
@@ -93,7 +104,27 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
-    }
+    } 
+}
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': ['profile', 'email'],
+        'AUTH_PARAMS' : {
+            'access_type' : 'online'
+        }
+    },
+    'github': {
+        'SCOPE': ['profile', 'email'],
+        'AUTH_PARAMS' : {
+            'access_type' : 'online'
+        }
+    },
 }
 
 

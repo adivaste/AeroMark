@@ -2,3 +2,14 @@
 2. Problem with request taking too much time
 3. Problem faced in api endpoints 
 4. Customization of user, collection tags output as human readable instead of id
+
+
+Client ID
+743116441786-1p8kmm1cnum9uogrc5jmtrjesd8092ui.apps.googleusercontent.com
+Client secret
+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
+
+
+
+95d024e089f33b5faba0
+cae6ba63e21217649ad32c3ae21bc120ba43064e

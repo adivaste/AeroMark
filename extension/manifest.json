@@ -3,10 +3,9 @@
   "version": "1.0",
   "manifest_version": 3,
   "description": "Your concise technical description here.",
-  "permissions": ["activeTab", "tabs", "storage", "scripting", "cookies", "http://localhost:8000/*", "https://bard.google.com/"],
+  "permissions": ["activeTab", "tabs", "storage", "scripting", "cookies", "http://localhost:8000/*"],
   "host_permissions": [
     "http://localhost:8000/*",
-    "http://www.blogger.com/",
     "*://*/*"
   ],
   
