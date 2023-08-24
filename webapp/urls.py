@@ -2,6 +2,7 @@ from django.urls import path
 from webapp import views
 
 urlpatterns = [
+    path("", views.index, name="index"),
     path("dashboard", views.dashboard, name="dashboard"),
     path("dashboard/all_bookmarks", views.all_bookmarks, name="all_bookmarks"),
     path("dashboard/unsorted", views.unsorted, name="unsorted"),

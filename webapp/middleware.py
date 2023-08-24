@@ -30,20 +30,15 @@ class JWTMiddleware:
 
     def __call__(self, request):
         response = self.get_response(request)
-        print("request ==> ", response)
-
         if request.user.is_authenticated:
             # Generate JWT tokens
             refresh = RefreshToken.for_user(request.user)
             access_token = str(refresh.access_token)
-            print("tokens ==> ",  refresh,  " :: ", access_token)
 
             # Set access token as a cookie
             response.set_cookie('access_token', access_token, httponly=False)
 
             # Store access token in the session
             request.session['access_token'] = access_token
-
-            print(response)
 
         return response
