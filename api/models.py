@@ -14,6 +14,8 @@ class Bookmark(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     collection = models.ForeignKey("Collection", on_delete=models.CASCADE, blank=True, null=True)
     is_trash = models.BooleanField(default=False, blank=True)
+    pdf_url = models.URLField(blank=True, null=True, default=None)
+    screenshot_url = models.URLField(blank=True, null=True, default=None)
 
     def __str__(self):
         return self.title

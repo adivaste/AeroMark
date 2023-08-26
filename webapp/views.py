@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, HttpResponse
 import requests
 import json
 import csv
+import os
 from utils.CurlWrapper import CurlWrapper
 from utils.getThumbnailURL import extract_thumbnail
 from utils.encodeQueryParameter import encode_query_parameter
@@ -431,3 +432,27 @@ def download_csv(request, type, identifier=None):
         return response
     else:
         return HttpResponse('Error while fetching CSV data', status=500)
+
+@login_required
+def download_file_from_url(request):
+    if request.method == 'GET':
+        try: 
+            url = request.GET.get('url')  # Assuming the URL parameter is named 'url'
+            filename = request.GET.get('filename')  # Assuming the URL parameter is named 'url'
+
+            if url:
+                response = requests.get(url)
+
+                if response.status_code == 200:
+                    content = response.content
+                    filename = filename  # Get the filename from the URL
+                    response = HttpResponse(content, content_type='application/octet-stream')
+                    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+                    return response
+                else:
+                    return HttpResponse("Failed to download file from the given URL.", status=400)
+            else:
+                return HttpResponse("URL parameter is missing.", status=400)
+        except:
+            return HttpResponse("An error occured while processing your request. File offline conversions might still working or internal server error !", status=500)    
+    return HttpResponse("Invalid request method.", status=405)

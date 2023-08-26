@@ -3,7 +3,6 @@
 # ===================================================
 
 
-
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -15,11 +14,15 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.conf import settings
 from utils.getThumbnailURL import extract_thumbnail
+from utils.webpageToPdf import convert_to_pdf
+from utils.webpageToImage import take_fullpage_screenshot
+from utils.uploadFile import upload_file_and_get_url
 from django.db.models import Q
+import threading
 import time
 import jwt
 import csv
-
+import os
 
 
 # ===================================================
@@ -161,6 +164,13 @@ def bookmarks_list(request):
             if serializer.is_valid():
                   bookmark = serializer.save()
                   serialized_data = serializer.to_representation(bookmark)  # Get the default serialized data
+
+                  # ==== Start threading for converting to PDF and Screenshot ====
+                  # convert_URL_to_PDF_and_screenshot(serialized_data)
+                  offlineConvertThread = threading.Thread(target=convert_URL_to_PDF_and_screenshot, args=(serialized_data,))
+                  offlineConvertThread.start()
+                  print("Thread started !!!")
+
 
                   return Response(serialized_data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -502,3 +512,58 @@ def download_csv(request, type, identifier=None):
     
     print(filename)
     return response
+
+
+def convert_URL_to_PDF_and_screenshot(bookmark):
+
+    print("Function start [Done 1]")
+    try:
+        url = bookmark.get("url")
+        bookmark_id = bookmark.get("id")
+        username = bookmark.get("user")
+        currTime = round(time.time() * 1000)
+
+        filename = str(username) + "_" + str(bookmark_id) + "_" + str(currTime)
+
+        print(f"Got username|time|url [Done 2] : {username} {currTime} {filename}")
+        pdfFilename = filename + ".pdf"
+        pdfResponseObject = convert_to_pdf(url, pdfFilename)
+
+        screenshotFilename = filename + ".png"
+        screenshotResponseObject = take_fullpage_screenshot(url, screenshotFilename)
+        print(f"ss reposne object : {screenshotResponseObject}")
+        print(f"PDF reposne object : {pdfResponseObject}")
+
+        try:
+            if pdfResponseObject["success"]:
+                fileResponse = upload_file_and_get_url(pdfFilename)
+                if fileResponse["success"]:
+                    bookmark_id = bookmark.get("id")
+                    bookmarkInstance = Bookmark.objects.filter(id=int(bookmark_id))[0]
+                    bookmarkInstance.pdf_url = fileResponse["url"]
+                    bookmarkInstance.save()
+        except Exception as e1:
+            print(e1)
+        
+        
+        # Update screenshot url
+        try:
+            if screenshotResponseObject["success"]:
+                fileResponse = upload_file_and_get_url(screenshotFilename)
+                if fileResponse["success"]:
+                    bookmark_id = bookmark.get("id")
+                    bookmarkInstance = Bookmark.objects.filter(id=int(bookmark_id))[0]
+                    bookmarkInstance.screenshot_url = fileResponse["url"]
+                    bookmarkInstance.save()
+        except Exception as e2:
+            print(e2)
+
+    except Exception as e:
+            print(e)
+    
+    # Delete local files after uploading
+    try:
+        os.remove(pdfFilename)
+        os.remove(screenshotFilename)
+    except:
+        pass

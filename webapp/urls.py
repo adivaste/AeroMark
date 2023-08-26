@@ -22,5 +22,5 @@ urlpatterns = [
     path("accounts/logout/", views.user_logout, name="logout"), 
     path('download-csv/<str:type>/', views.download_csv, name='all_download_csv'),
     path('download-csv/<str:type>/<str:identifier>/', views.download_csv, name='category_download_csv'),
-
+    path("download-file/", views.download_file_from_url, name="download_file")
 ]

@@ -58,10 +58,9 @@ SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
+
 COMPRESS_ROOT = BASE_DIR / 'static'
-
 COMPRESS_ENABLED = True
-
 STATICFILES_FINDERS = ('compressor.finders.CompressorFinder',)
 
 
@@ -186,5 +185,5 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=2),
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=60),
 }

@@ -1,4 +1,17 @@
+# import pdfkit
 
+# pdfkit.from_url('https://stackoverflow.com/questions/23359083/how-to-convert-webpage-into-pdf-by-using-python', 'out.pdf')
+
+# from pyhtml2pdf import converter
+
+# converter.convert('https://pypi.org', 'sample.pdf')
+
+# import weasyprint
+# pdf = weasyprint.HTML('http://www.google.com').write_pdf()
+# len(pdf)
+# open('google.pdf', 'wb').write(pdf)
+
+# -======================================================
 # import subprocess
 # import json
 
@@ -58,14 +71,61 @@
 # # res = temp.get(url)
 # # print(res)
 
-import requests
+# import requests
 
-data = {
-    "username" : "rohit",
-    "password"  : "Pass@123"
-}
+# data = {
+#     "username" : "rohit",
+#     "password"  : "Pass@123"
+# }
 
-response = requests.post("http://localhost:8000/api/token/", data=data)
-print(response)
-print(response.text)
-print(response.status_code)
+# response = requests.post("http://localhost:8000/api/token/", data=data)
+# print(response)
+# print(response.text)
+# print(response.status_code)
+
+# import asyncio
+
+# async def async_function():
+#     print("Async function started")
+#     await asyncio.sleep(2)
+#     print("Async function completed")
+
+# async def main():
+#     print("Main function started")
+#     asyncio.create_task(async_function())  # Start async function concurrently
+#     print("Main function completed")
+#     await asyncio.sleep(6)
+
+# # Run the event loop to execute asynchronous functions
+# asyncio.run(main())
+
+import threading
+import time
+
+# Simulating bookmark conversion to PDF and taking a screenshot
+def convert_to_pdf(bookmark):
+    time.sleep(5)  # Simulate PDF conversion
+    print(f"Converting bookmark '{bookmark}' to PDF...")
+    print(f"Bookmark '{bookmark}' converted to PDF")
+
+def take_screenshot(bookmark):
+    time.sleep(3)  # Simulate taking a screenshot
+    print(f"Taking screenshot of bookmark '{bookmark}'...")
+    print(f"Screenshot taken for bookmark '{bookmark}'")
+
+# Function to handle the user request
+def handle_request(bookmark):
+    print(f"Handling request for bookmark '{bookmark}'")
+    pdf_thread = threading.Thread(target=convert_to_pdf, args=(bookmark,))
+    screenshot_thread = threading.Thread(target=take_screenshot, args=(bookmark,))
+    pdf_thread.start()  # Start PDF conversion thread
+    screenshot_thread.start()  # Start screenshot thread
+    return f"Request for bookmark '{bookmark}' received and tasks initiated."
+
+def main():
+    bookmark = "example.com"
+    response = handle_request(bookmark)
+    print(response)
+
+if __name__ == "__main__":
+    main()
