@@ -157,10 +157,11 @@
 
 <body class="bg-green-50 h-screen">
 
-  
+
+
   <!-- Entire structure  -->
   <div class="antialiased bg-gray-50 dark:bg-gray-900 h-full">
-    
+
     <nav class="bg-white border-b border-gray-200 px-4 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 top-0 z-50">
       <div class="flex flex-wrap justify-between items-center">
         <div class="flex justify-start items-center">
@@ -990,7 +991,7 @@
 
 
       <!-- <iframe src="https://i.ibb.co/wW1bczF/screenshot1.png" class="w-full h-full border-0"></iframe> -->
-      <img src="https://i.ibb.co/wW1bczF/screenshot1.png" alt="">
+      <img id="screeenshot-preview" src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" alt="">
   </div>
 
   </div>
@@ -1144,7 +1145,7 @@
       </div>
       
       </div>
-    </div>    
+    </div>  
 
   </div>
 
@@ -1407,6 +1408,53 @@
           descriptionElement.value = "Description not found";
         }
       });
+    </script>
+
+
+    <!-- Script for download part -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          const viewDownloadButtons = document.querySelectorAll('.view-download-button');
+          const pdfButton = document.querySelector('#download-pdf a');
+          const screenshotButton = document.querySelector('#download-screenshot a');
+          const screenshotPreview = document.getElementById("screeenshot-preview")
+          
+          viewDownloadButtons.forEach(function(viewDownloadButton, index) {
+              viewDownloadButton.addEventListener('click', function() {
+                  console.log("clicked")
+                  screenshotPreview.setAttribute("src", "https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif")
+                  const pdfUrl = viewDownloadButton.getAttribute('pdf-download-url');
+                  const screenshotUrl = viewDownloadButton.getAttribute('screenshot-download-url');
+                  
+                  if (! pdfUrl.startsWith("https://") && ! screenshotUrl.startsWith("https://")){
+                    alert("Server is still processing your conversions, it may take upto 10 seconds")
+                  }
+
+                  if (pdfUrl.startsWith("https://")){
+                    pdfButton.setAttribute('href', `/download-file?url=${pdfUrl}&filename=article.pdf`);
+                  }
+                  if (pdfUrl.startsWith("https://")){
+                    screenshotButton.setAttribute('href', `/download-file?url=${screenshotUrl}&filename=article.png`);
+                  }
+                  
+                  if (screenshotUrl.startsWith("https://")){
+                    screenshotPreview.setAttribute("src", screenshotUrl)
+                  }
+                  else{
+                    screenshotPreview.setAttribute("src", "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg")
+                  }
+                  // screenshotButton.setAttribute('screenshot-download-url', screenshotUrl);
+              });  
+          });
+
+          pdfButton.addEventListener('click', function(){
+            pdfButton.preventDefault()
+            if (pdfButton.getAttribute("href").startsWith("https://")){
+              alert("Working")
+            }
+          })
+
+        });
     </script>
 </body>
 

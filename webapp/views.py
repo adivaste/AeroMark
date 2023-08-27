@@ -1,5 +1,6 @@
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.shortcuts import render, redirect, HttpResponse
+from django.http import JsonResponse
 import requests
 import json
 import csv
@@ -450,9 +451,7 @@ def download_file_from_url(request):
                     response['Content-Disposition'] = f'attachment; filename="{filename}"'
                     return response
                 else:
-                    return HttpResponse("Failed to download file from the given URL.", status=400)
-            else:
-                return HttpResponse("URL parameter is missing.", status=400)
+                    return JsonResponse({ "error" : "Failed to download file from the given URL.", "status":400})
         except:
-            return HttpResponse("An error occured while processing your request. File offline conversions might still working or internal server error !", status=500)    
-    return HttpResponse("Invalid request method.", status=405)
+            return JsonResponse({ "error" : "An error occured while processing your request. File offline conversions might still working or internal server error !", "status":500})    
+    return JsonResponse({"error":"Invalid request method.", "status":405})
