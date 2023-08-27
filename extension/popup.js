@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
 saveButton.addEventListener("click", saveBookmark);
 
 async function saveBookmark() {
-    myUrl = "http://localhost:8000";
+    myUrl = "https://poetic-falcon-fully.ngrok-free.app";
 
     const saveButtonIcon = saveButton.querySelector(".fa-floppy-disk");
     const spinnerIcon = '<i class="fa-solid fa-spinner fa-spin px-2"></i>';
@@ -137,7 +137,7 @@ async function saveBookmark() {
         };
 
         try {
-            const response = await fetch("http://localhost:8000/api/bookmarks/", {
+            const response = await fetch("https://poetic-falcon-fully.ngrok-free.app/api/bookmarks/", {
                 method: "POST",
                 headers: headers,
                 body: JSON.stringify(bookmarkData),
@@ -149,7 +149,7 @@ async function saveBookmark() {
             }
             else if (response.status === 401) {
               // Unauthorized, redirect to login page
-              chrome.tabs.create({ url: "http://localhost:8000/accounts/logout" });
+              chrome.tabs.create({ url: "https://poetic-falcon-fully.ngrok-free.app/accounts/logout" });
             }
              else {
                 // Handle error

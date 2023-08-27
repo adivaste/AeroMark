@@ -27,8 +27,10 @@ SECRET_KEY = "django-insecure-2q@fasey!yhnicc9bk0!lxvpwvqa=fl%^p(8j7argllo$!jh-q
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
-
+ALLOWED_HOSTS = ["*", "https://poetic-falcon-fully.ngrok-free.app"]
+CSRF_TRUSTED_ORIGINS = [
+    "https://poetic-falcon-fully.ngrok-free.app",
+]
 
 # Application definition
 
