@@ -1,6 +1,6 @@
 <h1 align="center" id="title">AeroMark</h1>
 
-<p align="center"><img src="https://cdn.sstatic.net/Img/teams/teams-illo-free-sidebar-promo.svg?v=47faa659a05e" alt="project-image"></p>
+<p align="center"><img width=70px height=70px src="https://i.ibb.co/3c9QZG9/bookmark-5.png" alt="project-image"></p>
 
 <p id="description">AeroMark is a personalized web app for managing bookmarks that lets you easily Create View and Delete bookmarks. It offers Tag and Collection organization sorting options offline reading with PDFs and screenshots Chrome extension support and the ability to backup bookmarks in CSV format. It also provides basic authentication as well as the option to log in using Google or GitHub credentials.</p>
 
@@ -41,7 +41,9 @@ cd AeroMark
 <p>3. Set Up Virtual Environment (Optional but Recommended): It's a good practice to create a virtual environment for your project to manage dependencies. To create and activate a virtual environment run:</p>
 
 ```
-python3 -m venv venv       # Create virtual environment source venv/bin/activate  # Activate virtual environment (Linux/macOS) venv\Scripts\activate     # Activate virtual environment (Windows)
+python3 -m venv venv       # Create virtual environment
+source venv/bin/activate  # Activate virtual environment (Linux/macOS)
+venv\Scripts\activate     # Activate virtual environment (Windows)
 ```
 
 <p>4. Install Dependencies: Install the required Python dependencies using pip:</p>
@@ -53,7 +55,8 @@ pip install -r requirements.txt
 <p>5. Database Setup: AeroMark might require a database setup.</p>
 
 ```
-python manage.py makemigrations   python manage.py migrate
+python manage.py makemigrations
+python manage.py migrate
 ```
 
 <p>6. Run the Application: Once you've completed the above steps you can run the AeroMark application. Refer to the project's documentation for the specific command to start the application:</p>
@@ -63,3 +66,18 @@ python manage.py runserver
 ```
 
 <p>7. Access the Application: Open your web browser and navigate to http://localhost:8000 (or the URL specified by the application) to access AeroMark.</p>
+
+<h2>💻 Built with</h2>
+
+Technologies used in the project:
+
+*   Python
+*   Django
+*   HTML
+*   CSS
+*   JavaScript
+*   Sqlite3
+*   JWT
+*   DRF (Django Rest Framework)
+*   Tailwind
+*   Flowbite
