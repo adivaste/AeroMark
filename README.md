@@ -4,6 +4,9 @@
 
 <p id="description">AeroMark is a personalized web app for managing bookmarks that lets you easily Create View and Delete bookmarks. It offers Tag and Collection organization sorting options offline reading with PDFs and screenshots Chrome extension support and the ability to backup bookmarks in CSV format. It also provides basic authentication as well as the option to log in using Google or GitHub credentials.</p>
 
+<h2> Simple Flow Diagram </h2>
+<img  src="https://gcdnb.pbrd.co/images/vI7UbOsxctDF.png?o=1">
+
 <h2>🚀 Demo</h2>
 
 [https://poetic-falcon-fully.ngrok-free.app](https://poetic-falcon-fully.ngrok-free.app)
